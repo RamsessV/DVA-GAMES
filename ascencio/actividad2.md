@@ -1,4 +1,4 @@
-#Reflexión personal
+# Reflexión personal
 
 Mi nombre es José Ascencio, y en mi caso me parece bastante interesante el desarrollo de videojuegos, el videojuego que más juego actualmente es Overwatch, aunque algunos de mis juegos favoritos son Minecraft, Sunset Overdrive y Ratchet and Clank Lo que más me atrae de estos juegos es principalmente su jugabilidad y la manera en que cada uno ofrece una experiencia diferente al jugador.
 
