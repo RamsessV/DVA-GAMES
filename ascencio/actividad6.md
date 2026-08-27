@@ -21,3 +21,18 @@ Al completar un nivel, se desbloquea un nuevo país con una nueva comida, ambien
 - El jugador puede arrojar cosas que se encuentre.
 - El jugador puede utilizar distintas herramientas para defenderse de los enemigos.
 - Si la barra de vida llega a cero el jugador pierde el nivel.
+
+## Experiencia buscada
+Quiero que el jugador sienta rapidez, presión, diversión y sorpresa. La preparación de pedidos le pone presión por el tiempo, los enemigos y situaciones inesperadas hacen que el jugador tenga que reaccionar rapido antes de perder.
+
+## Coherencia del diseño
+La idea junta la preparación de comida con elementos de acción, aunque el jugador tenga que atender pedidos, también tiene que defender su puesto y resolver problemas.
+
+Cada país mantiene estas mecánicas, pero cambia la comida, el escenario, los enemigos y las situaciones, esto hace que cada nivel se sienta diferente sin cambiar completamente como se juega.
+
+### MDA
+**Mecánicas:** preparar comida, entregar pedidos, moverse, combatir, usar armas, conseguir mejoras y sobrevivir.
+
+**Dinámicas:** presión por el tiempo, combate, y situaciones inesperadas.
+
+**Estética:** humor, acción, caos, sorpresa y diferentes ambientes según el país.
