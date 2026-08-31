@@ -8,4 +8,8 @@ Así como los sitios web, aplicaciones y demás sistemas, dentro de los videojue
 
 - Modelo GAP
 
-  Este modelo esta más enfocado en cómo se desenvuelve el juego y las primeras impresiones, 
+  Este modelo esta más enfocado en cómo se desenvuelve el juego y las primeras impresiones, nos habla sobre introducir al usuario dentro del universo del juego, de enseñarle las mecánicas, las metas y logros disponibles, todo para captar la atención del usuario. Pondré de ejemplo uno de mis juegos favoritos, Detroit become human, en este juego centrado en la historia y RPG, nos da un caso de jugabilidad real como tutorial, es decir nos coloca en un escenario que es importante para la historia pero en donde nos muestra las mecánicas del juego y dónde nunca indica explícitamente que es un tutorial, aquí permite ver las interacciones que se pueden hacer y también te permite ver que cada interacción puede desbloquear nuevas opciones que pueden cambiar el curso de la historia debido a que cuenta con varios finales, además te adrentra al universo y el problema central de la historia.
+
+# Conclusión
+
+Tanto las heurísticas de accesibilidad, como los modelos de GAP y PLAY, son guías que nos ayudan al desarrollo de videojuegos. Anteriormente cuando estaba aprendiendo sobre las heurísticas de accesibilidad me llegué a preguntar si existía una subcategoría o una subrama para los videojuegos ya que aunque estás heurísticas son bastante universales para un buen diseño, no cubren siempre todos los aspectos que se quieren desarrollar, y sobre todo hay aspectos de los videojuegos que es imposible evaluar solo con estas heurísticas como son la jugabilidad o mecánicas.
