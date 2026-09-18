@@ -40,6 +40,9 @@ En *Tacocalipsis*, el jugador asume el rol del Taquero, cuya meta es sobrevivir 
 * Si la vida del **Taquero** llega a **0 HP** $\rightarrow$ **Game Over**.
 * Si la vida del **Carrito** llega a **0 HP** $\rightarrow$ **Game Over**.
 
+#### E. Condición de Victoria
+* Si se sobrevive a las 5 oleadas y se derrota al jefe final, el jugador obtiene la victoria.
+
 ---
 
 ### 4.3. Matriz de Decisiones y Tiempo por Fases de Juego
