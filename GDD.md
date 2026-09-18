@@ -17,6 +17,38 @@ A diferencia de los juegos de supervivencia tradicionales donde el jugador solo 
 ---
 
 ## 3. Perfil de jugador
+
+## Datos demográficos:
+
+1. Edad: 16 a 35 años.
+2. Plataforma: PC.
+3. Segmento: Jugadores de perfil casual que disfrutan de partidas rápidas, independientes y altamente rejugables.
+
+## Principales perfiles a los que va dirigido este juego:
+
+Aquellos que buscan experimentar con combinaciones de armas y mejoras, optimizar el uso de coberturas y superar todas las oleadas sin perder el carrito.
+
+Los atraídos por el bucle de juego frenético que requiere reflejos rápidos, pero que a la vez exige decisiones estratégicas en tiempo real como el cuándo curar, a quién proteger o cuándo mover el carrito.
+
+## Posibles intereses del jugador:
+
+1. Interés de Género: Fans de títulos de hordas y supervivencia como Vampire Survivors, Brotato o Enter the Gungeon.
+
+2. Aprecio por el Humor y el Estilo Visual: Jugadores atraídos por temáticas satíricas, la cultura pop, la gastronomía mexicana y el arte cómico en 2D.
+
+3. Estilo de Juego Preferido: Sesiones de juego de corta a media duración, de máximo 10 minutos por partida, donde la curva de aprendizaje es inmediata pero dominar la mecánica requiere práctica.
+
+## Justificación de la estructura del juego
+
+- **Jugador**: Busca partidas ágiles y gratificación rápida.
+  - **Estructura**: Estructura dividida en 5 oleadas temáticas cortas con jefes finales en lugar de una sesión infinita y monótona.
+- **Jugador**: Quiere decisiones tácticas con impacto real.
+  - **Estructura**: Mecánica del Carrito Movible, la cual fuerza al jugador a evaluar el mapa y posicionarse, evitando que solo corra en círculos.
+- **Jugador**: Desea rejugabilidad y sensación de avance.
+  - **Estructura**: Sistema de Selección de 3 Mejoras por Nivel, lo que permite adaptar el estilo de combate (velocidad, vida o poder de fuego) según la amenaza de la oleada.
+- **Jugador**: Busca una narrativa ligera que no interrumpa el ritmo.
+  - **Estructura**: Historieta en Viñetas entre oleadas, lo que entrega contexto narrativo cómico de forma visual y rápida antes de volver a la acción.
+
 ## 4. Core Loop
 ### 4.1. Descripción Breve
 En *Tacocalipsis*, el jugador asume el rol del Taquero, cuya meta es sobrevivir a 5 oleadas de comida mutante mientras protege su herramienta de trabajo: el carrito de tacos. El ciclo fundamental combina el **combate táctico y posicionamiento dual** (cubrir al personaje y al carrito) con la **recolección de recursos (XP y munición)**, lo que alimenta la **mejora constante en el nivel de poder del personaje** mediante selecciones *roguelite* de subida de nivel.
