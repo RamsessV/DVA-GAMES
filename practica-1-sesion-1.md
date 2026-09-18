@@ -109,14 +109,20 @@ Validar si la combinación de **movilidad del carrito + defensa dual (personaje/
 ---
 
 # 3 riesgos identificados.
- ### Riesgo 1
+### Riesgo 1
+
  - Impacto: Alto
+ 
  - Definición: Desbalance en la curva de dificultad al obligar al jugador a defender dos barras de vida paralelas (personaje y carrito). Como el taquero queda indefenso al empujar el carrito, la acumulación masiva de hordas mutantes puede generar una experiencia frustrante si el jugador se siente acorralado o sin poder responder.
  
 ### Riesgo 2
+
  - Impacto: Medio
+ 
  - Definición: Al desbloquear la pistola y sus posteriores mejoras como arma principal, el cuchillo secundario puede quedar completamente sin utilidad táctica real.
  
 ### Riesgo 3
+
  - Impacto: Alto
+ 
  - Definición: Al depender de la probabilidad (drop rate) de los enemigos para obtener munición de la pistola/arma principal, una racha de mala suerte en la selección aleatoria puede dejar al jugador sin balas contra jefes o masas de enemigos.
