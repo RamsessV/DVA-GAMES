@@ -144,21 +144,44 @@ El mundo presenta un estilo gráfico en 2D con vista desde arriba (*top-down*), 
 
 Es un entorno urbano de comida callejera mexicana donde la vida cotidiana de un puesto de tacos se ve interrumpida por un brote de comida viviente y violenta.
 
-### 7.5 El Cierre y Final Abierto
+### 7.5 El Cierre
 
 Tras erradicar la quinta oleada y derrotar a los jefes correspondientes, el Taquero se enfrenta al desenlace de su crisis inicial, solo para ser abordado por un misterioso personaje proveniente de la India, el cual le presenta una propuesta enigmática, dejando el conflicto principal en pausa y estableciendo un final abierto.
 
 ---
 
 ## 8. Interfaz conceptual
- ### Origen del Problema:
- El conflicto se desencadena por un intento desesperado del Taquero por mejorar y perfeccionar sus recetas para incrementar sus ventas, al experimentar e intentar innovar en su cocina, los experimentos salen mal, desatando un caos masivo que cobra vida y transforma los platillos tradicionales en entes mutantes y agresivos.
- ### El Conflicto Recursivo:
- El conflicto no ocurre una sola vez, sino que es un ciclo recurrente. Cada uno de los niveles o intentos del Taquero por crear un nuevo producto alimenticio genera una nueva crisis, al elaborar un nuevo platillo, desencadena una nueva plaga de comida mutante que le toca limpiar y erradicar personalmente.
- ### Conflicto de Juego:
- El Taquero debe enfrentarse y sobrevivir a 5 oleadas continuas de hordas de comida malvada (Tacos, Burritos, Tamales, Elotes y Chicharrones). Para contener la amenaza, el personaje debe luchar por su propia vida, al mismo tiempo que protege y defiende su puesto de comida.
- ### El Cierre y Final Abierto:
- Tras erradicar la quinta oleada y derrotar a los jefes correspondientes, el Taquero se enfrenta al desenlace de su crisis inicial solo para ser abordado por un misterioso personaje proveniente de la India, el cuál le presenta una propuesta enigmática, dejando el conflicto principal en pausa y estableciendo un final abierto.
+### 8.1 Pantalla Principal de Juego (*In-Game HUD*)
+
+Durante la partida, la interfaz mantendrá un diseño limpio y despejado con vista estilo *top-down*, mostrando los siguientes indicadores:
+
+- **Barra de Vida del Taquero:** Ubicada en la esquina superior izquierda. Indica la salud actual del jugador.
+
+- **Barra de Vida del Carrito:** Ubicada justo debajo de la barra del Taquero (o sobre la estructura del carrito), permitiendo monitorear su estado crítico.
+
+- **Barra / Contador de Experiencia (XP):** Barra horizontal de progreso para visualizar el nivel actual y cuánto falta para la siguiente subida de nivel.
+
+- **Visualización de Armas:** Ubicada en la esquina inferior derecha, mostrando el arma principal equipada (pistola/mejoras) y el arma secundaria disponible (cuchillo).
+
+- **Contador de Munición:** Contador numérico posicionado junto al ícono del arma principal activa.
+
+### 8.2 Menú de Subida de Nivel (*Level Up Pop-up*)
+
+Pantalla emergente que pausa la acción al subir de nivel, desplegando 3 opciones seleccionables:
+
+1. Curación al personaje.
+2. Aumento de velocidad de movimiento.
+3. Obtención o mejora de arma principal.
+
+### 8.3 Formato Narrativo
+
+Entre cada oleada y al final del juego, la interfaz desplegará un formato de cómic/historieta interactiva con viñetas ilustradas, texto desplegable y un botón para avanzar o saltar la secuencia.
+
+### 8.4 Pantallas de Estado de Fin de Juego
+
+- **Pantalla de Victoria:** Desplegada tras vencer al jefe de la quinta oleada, dando paso a la historieta final.
+
+- **Pantalla de Derrota (*Game Over*):** Se activa si la salud del Taquero o la del Carrito llegan a cero, ofreciendo las opciones de **"Reintentar"** o **"Volver al Menú Principal"**.
 
 ---
 
