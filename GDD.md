@@ -1,5 +1,10 @@
 # Nombre del juego
 ## 1. High Concept
+
+Tacocalipsis es un action-shooter de supervivencia 2D de vista superior (Top-Down) donde un taquero mexicano debe defender y trasladar estratégicamente su carrito de tacos mientras combate caóticas hordas de comida callejera mutante y diabólica. El juego combina la progresión frenética de recolección de experiencia y selección de armas con una mecánica única de escolta activa, donde la supervivencia depende de proteger simultáneamente la vida del personaje y la integridad del carrito.
+
+---
+
 ## 2. Experiencia central
 ## 3. Perfil de jugador
 ## 4. Core Loop
