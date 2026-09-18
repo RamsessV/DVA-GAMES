@@ -128,14 +128,25 @@ En *Tacocalipsis*, el jugador asume el rol del Taquero, cuya meta es sobrevivir 
 
 ## 7. Mundo y conflicto
 
- ### Entorno y Escenario:
- La historia y la acción se desarrollan en una calle ordinaria de México la cuál actúa como la arena de combate para todas las oleadas del juego, incorporando elementos urbanos decorativos.
- 
- ### Estilo Visual y Atmósfera:
- El mundo presenta un estilo gráfico en 2D con vista desde arriba (top-down), caracterizado por un tono animado y caricaturesco. La comida mutante, la cual posee un diseño tétrico pero caricaturizado, manteniendo un tono humorístico y ligero a pesar de la amenaza.
- 
- ### Identidad Narrativa del Entorno:
- Es un entorno urbano de comida callejera mexicana donde la vida cotidiana de un puesto de tacos se ve interrumpida por un brote de comida viviente y violenta.
+### 7.1 Origen del Problema
+
+El conflicto se desencadena por un intento desesperado del Taquero por mejorar y perfeccionar sus recetas para incrementar sus ventas. Al experimentar e intentar innovar en su cocina, los experimentos salen mal, desatando un caos masivo que cobra vida y transforma los platillos tradicionales en entes mutantes y agresivos.
+
+### 7.2 Entorno y Escenario
+
+La historia y la acción se desarrollan en una calle ordinaria de México, la cual actúa como la arena de combate para todas las oleadas del juego, incorporando elementos urbanos decorativos.
+
+### 7.3 Estilo Visual y Atmósfera
+
+El mundo presenta un estilo gráfico en 2D con vista desde arriba (*top-down*), caracterizado por un tono animado y caricaturesco. La comida mutante posee un diseño tétrico pero caricaturizado, manteniendo un tono humorístico y ligero a pesar de la amenaza.
+
+### 7.4 Identidad Narrativa del Entorno
+
+Es un entorno urbano de comida callejera mexicana donde la vida cotidiana de un puesto de tacos se ve interrumpida por un brote de comida viviente y violenta.
+
+### 7.5 El Cierre y Final Abierto
+
+Tras erradicar la quinta oleada y derrotar a los jefes correspondientes, el Taquero se enfrenta al desenlace de su crisis inicial, solo para ser abordado por un misterioso personaje proveniente de la India, el cual le presenta una propuesta enigmática, dejando el conflicto principal en pausa y estableciendo un final abierto.
 
 ---
 
