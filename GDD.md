@@ -6,6 +6,16 @@ Tacocalipsis es un action-shooter de supervivencia 2D de vista superior (Top-Dow
 ---
 
 ## 2. Experiencia central
+
+La experiencia central de Tacocalipsis se define como una tensión táctica de defensa dual impregnada de humor absurdo y progresión frenética.
+A diferencia de los juegos de supervivencia tradicionales donde el jugador solo se preocupa por su propia vida, la experiencia de Tacocalipsis gira en torno a proteger también el carrito. En general, la experiencia se puede describir con los siguientes puntos:
+
+1. **Tensión de Movilidad**: La experiencia combina la adrenalina del combate ágil con la responsabilidad de proteger y reposicionar el carrito. El jugador experimenta un dilema constante entre quedarse a luchar en una posición o sacrificar su capacidad de ataque para empujar el carrito a una zona segura detrás de la cobertura del mapa.
+2. **Progresión Gratificante y Caótica**: Sensación constante de empoderamiento visual y numérico. Cada oleada eleva el caos en pantalla con hordas de comida mutante atacando, pero el ciclo de recolección de experiencia y selección rápida de mejoras mantiene al jugador en un estado de flujo dinámico.
+3. **Tono Humorístico y Cómico**: Una narrativa absurda de comida contra taquero transmitida mediante la estética animada y viñetas de historieta, lo que amortigua la frustración de la derrota y refuerza el deseo de reintentar.
+
+---
+
 ## 3. Perfil de jugador
 ## 4. Core Loop
 ### 4.1. Descripción Breve
