@@ -114,6 +114,16 @@ En *Tacocalipsis*, el jugador asume el rol del Taquero, cuya meta es sobrevivir 
 
 ## 6. Dinámicas esperadas
 
+- **Gestión del Riesgo:** La dinámica central nace de la necesidad de dividir la atención entre la supervivencia propia y la integridad del carrito. El jugador constantemente pensará si mantenerse en un tiroteo activo o arriesgarse a quedar indefenso durante unos segundos para mover el carrito antes de que sea acorralado por la horda.
+
+- **Priorización Táctica de Bajas:** Dado que el arma principal consume munición limitada disponible en drops, los jugadores tenderán a reservar sus disparos para enemigos a distancia o jefes, usando el cuchillo secundario para despachar mutantes solitarios o débiles que se acerquen.
+
+- **Construcción de Build y Estilo de Juego Adaptativo:** Dependiendo de las 3 opciones recibidas al subir de nivel, los jugadores adaptarán su estrategia: una ruta enfocada en Velocidad favorecerá un estilo de *hit-and-run*, moviendo rápido el carrito, mientras que una ruta de Armamento priorizará la eliminación rápida de amenazas antes de que alcancen el puesto de tacos.
+
+- **Uso Táctico del Mapa y Embudo de Enemigos (Chokepoints):** Los jugadores utilizarán activamente los objetos fijos del escenario no solo como cobertura defensiva contra proyectiles, sino como barreras para atraer a las hordas hacia pasillos estrechos y optimizar el daño en área.
+
+- **Estrategia de Desarrollo Post-Jefe:** Al final de cada oleada, el jugador deberá evaluar el rendimiento de su partida para decidir si invierte el bonificador en la salud máxima del Taquero (si tiende a recibir mucho daño esquivando) o en la salud máxima del Carrito (si prefiere usar el carrito como escudo pesado en el centro del mapa).
+
 ---
 
 ## 7. Mundo y conflicto
