@@ -1,4 +1,3 @@
-# Core loop cerrado
 # Core Loop *Tacocalipsis*
 
 ## 1. Descripción Breve
