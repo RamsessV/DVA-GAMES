@@ -53,6 +53,15 @@ En *Tacocalipsis*, el jugador asume el rol del Taquero, cuya meta es sobrevivir 
 ---
 
 ## 5. Mecánicas principales
+* **Mecánica de Cobertura Dinámica:** El mapa contiene objetos fijos (autos estacionados, puestos, postes de luz) que bloquean las líneas de visión y detienen proyectiles enemigos. Tanto el Taquero como el carrito pueden ocultarse tras ellos para evitar daño entrante.
+* **Mecánica de Empuje y Custodia del Carrito:** El carrito de tacos actúa como una entidad móvil interactiva con su propia barra de salud. Al acercarse, el jugador puede presionar un botón contextual para empujarlo y reubicarlo. Durante el tiempo en que se empuja el carrito, el jugador pierde la capacidad de atacar.
+* **Sistema de Armamento Dual (Principal y Secundaria):** El jugador inicia la partida únicamente con un Cuchillo de cocina como arma de cuerpo a cuerpo. Al seleccionar la primera mejora de arma en la subida de nivel, recibe una Pistola sencilla como arma principal de fuego. El cuchillo permanece permanentemente mapeado como arma secundaria para combate cercano, mientras que las posteriores mejoras de arma actualizan y potencian el arma principal.
+* **Mecánica de Selección Roguelite (3 Opciones):** Cada vez que la barra de XP se llena, se pausa el combate y se presenta una interfaz de selección fija con 3 cartas aleatorias: Curación de Personaje, Aumento de Velocidad, o Mejora/Evolución de Arma Principal.
+* **Gestión de Recursos y Probabilidad de Drops:** La Experiencia (XP) es dropeada obligatoriamente por los enemigos derrotados. La Munición es dropeada de forma probabilística (RNG) para recargar el arma principal en uso.
+* **Sistema de Restauración de Salud Post-Jefe:** Al eliminar al jefe de cada oleada, el carrito recupera instantáneamente el 100% de sus Puntos de Vida (HP) y se activa la selección especial de desarrollo (+Max HP al Taquero O al Carrito).
+
+---
+
 ## 6. Dinámicas esperadas
 
 ---
