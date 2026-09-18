@@ -54,7 +54,50 @@ En *Tacocalipsis*, el jugador asume el rol del Taquero, cuya meta es sobrevivir 
 
 ## 5. Mecánicas principales
 ## 6. Dinámicas esperadas
+
+---
+
 ## 7. Mundo y conflicto
+
+ ### Entorno y Escenario:
+ La historia y la acción se desarrollan en una calle ordinaria de México la cuál actúa como la arena de combate para todas las oleadas del juego, incorporando elementos urbanos decorativos.
+ 
+ ### Estilo Visual y Atmósfera:
+ El mundo presenta un estilo gráfico en 2D con vista desde arriba (top-down), caracterizado por un tono animado y caricaturesco. La comida mutante, la cual posee un diseño tétrico pero caricaturizado, manteniendo un tono humorístico y ligero a pesar de la amenaza.
+ 
+ ### Identidad Narrativa del Entorno:
+ Es un entorno urbano de comida callejera mexicana donde la vida cotidiana de un puesto de tacos se ve interrumpida por un brote de comida viviente y violenta.
+
+---
+
 ## 8. Interfaz conceptual
+ ### Origen del Problema:
+ El conflicto se desencadena por un intento desesperado del Taquero por mejorar y perfeccionar sus recetas para incrementar sus ventas, al experimentar e intentar innovar en su cocina, los experimentos salen mal, desatando un caos masivo que cobra vida y transforma los platillos tradicionales en entes mutantes y agresivos.
+ ### El Conflicto Recursivo:
+ El conflicto no ocurre una sola vez, sino que es un ciclo recurrente. Cada uno de los niveles o intentos del Taquero por crear un nuevo producto alimenticio genera una nueva crisis, al elaborar un nuevo platillo, desencadena una nueva plaga de comida mutante que le toca limpiar y erradicar personalmente.
+ ### Conflicto de Juego:
+ El Taquero debe enfrentarse y sobrevivir a 5 oleadas continuas de hordas de comida malvada (Tacos, Burritos, Tamales, Elotes y Chicharrones). Para contener la amenaza, el personaje debe luchar por su propia vida, al mismo tiempo que protege y defiende su puesto de comida.
+ ### El Cierre y Final Abierto:
+ Tras erradicar la quinta oleada y derrotar a los jefes correspondientes, el Taquero se enfrenta al desenlace de su crisis inicial solo para ser abordado por un misterioso personaje proveniente de la India, el cuál le presenta una propuesta enigmática, dejando el conflicto principal en pausa y estableciendo un final abierto.
+
+---
+
 ## 9. MVP
+
+---
+
 ## 10. Riesgos y trade-offs
+ ### Riesgo 1
+ * **Impacto:** Alto
+ * **Definición:** Desbalance en la curva de dificultad al obligar al jugador a defender dos barras de vida paralelas (personaje y carrito). Como el taquero queda indefenso al empujar el carrito, la acumulación masiva de hordas mutantes puede generar una experiencia frustrante si el jugador se siente acorralado o sin poder responder.
+ * **Trade-off:** Se asume el riesgo de una curva de aprendizaje más empinada para el jugador casual y se requiere tiempo de desarrollo adicional para iterar y probar el ritmo (pacing) de las oleadas.
+
+ ### Riesgo 2
+ * **Impacto:** Medio
+ * **Definición:** Al desbloquear la pistola y sus posteriores mejoras como arma principal, el cuchillo secundario puede quedar completamente sin utilidad táctica real.
+ * **Trade-off:** Mantener el cuchillo como arma permanente preserva la fantasía del personaje del Taquero y garantiza que el jugador nunca quede totalmente indefenso en situaciones extremas, pero se requiere un incentivo o utilidad única al cuchillo.
+
+ ### Riesgo 3
+ * **Impacto:** Alto
+ * **Definición:** Al depender de la probabilidad (drop rate) de los enemigos para obtener munición de la pistola/arma principal, una racha de mala suerte en la selección aleatoria puede dejar al jugador sin balas contra jefes o masas de enemigos.
+ * **Trade-off:** Se delega el éxito de la partida a la suerte (RNG), lo que puede castigar injustamente al jugador hábil y provocar estados de imposibilidad de victoria (fail states) no merecidos, requiriendo la implementación de sistemas de protección contra malas rachas (pity systems) o mecánicas de respaldo.
