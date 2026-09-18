@@ -1,5 +1,5 @@
-# Core loop cerrado.
-# MVP definido.
+# Core loop cerrado
+# MVP definido
 ##  Producto Mínimo Viable (MVP) – *Tacocalipsis*
 
 ---
@@ -59,4 +59,6 @@ Validar si la combinación de **movilidad del carrito + defensa dual (personaje/
 ####  Narrativa Mínima (Cómics / Historieta)
 * **Pantalla de Intro:** 2 a 3 viñetas con diálogo estilo historieta donde el Taquero intenta mejorar su receta, provoca la mutación accidental y desencadena la huida de la comida.
 * **Pantalla de Victoria:** 2 viñetas mostrando la derrota del segundo jefe y la aparición del vendedor callejero de la India con la propuesta misteriosa (*Cliffhanger*).
+---
 
+# 3 riesgos identificados.
