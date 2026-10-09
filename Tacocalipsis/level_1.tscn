@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://bfqa6fj5sqsum"]
 
 [ext_resource type="PackedScene" uid="uid://dkinq1vn02cgh" path="res://player.tscn" id="1_3hls8"]
+[ext_resource type="Script" uid="uid://cr6po2kx30oux" path="res://level_1.gd" id="1_rka8t"]
 [ext_resource type="PackedScene" uid="uid://vcobqoqmubq4" path="res://wall.tscn" id="2_hbghi"]
 [ext_resource type="PackedScene" uid="uid://fij4cy6rsirh" path="res://cart.tscn" id="3_hn12h"]
+[ext_resource type="PackedScene" uid="uid://r3x1ufrfb6rn" path="res://hud.tscn" id="5_5hph3"]
 
 [node name="Level1" type="Node2D" unique_id=1923271350]
+script = ExtResource("1_rka8t")
 
 [node name="Player" parent="." unique_id=1414235785 instance=ExtResource("1_3hls8")]
 
@@ -21,5 +24,11 @@ rotation = 1.5707964
 
 [node name="Cart" parent="." unique_id=564698932 instance=ExtResource("3_hn12h")]
 position = Vector2(748, 524)
+
+[node name="HUD" parent="." unique_id=246963821 instance=ExtResource("5_5hph3")]
+offset_left = -356.0
+offset_top = -155.0
+offset_right = -356.0
+offset_bottom = -155.0
 
 [connection signal="carring_change" from="Cart" to="Player" method="_on_cart_carring_change"]

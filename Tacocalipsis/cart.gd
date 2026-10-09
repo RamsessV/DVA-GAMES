@@ -2,13 +2,21 @@ extends Area2D
 
 signal carring_change(value: bool)
 
+@export var max_health: int = 150
+var current_health: int
+
+signal health_changed(new_health, max_health)
+signal cart_destroyed
+
 var player_near := false
 var is_carried := false
 var player: CharacterBody2D
 
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
+	current_health = max_health
+	
+	#body_entered.connect(_on_body_entered)
+	#body_exited.connect(_on_body_exited)
 
 func _process(_delta: float) -> void:
 	if player_near and Input.is_action_just_pressed("interact"):
@@ -29,3 +37,10 @@ func _on_body_entered(body: Node2D) -> void:
 func _on_body_exited(body: Node2D) -> void:
 	if body == player:
 		player_near = false
+
+func take_damage(amount: int) -> void:
+	current_health = max(0, current_health - amount)
+	health_changed.emit(current_health, max_health)
+	
+	if current_health <= 0:
+		cart_destroyed.emit()
