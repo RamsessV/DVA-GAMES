@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bfqa6fj5sqsum"]
+
+[ext_resource type="PackedScene" uid="uid://dkinq1vn02cgh" path="res://player.tscn" id="1_3hls8"]
+[ext_resource type="PackedScene" uid="uid://vcobqoqmubq4" path="res://wall.tscn" id="2_hbghi"]
+
+[node name="Level1" type="Node2D" unique_id=1923271350]
+
+[node name="Player" parent="." unique_id=1414235785 instance=ExtResource("1_3hls8")]
+
+[node name="Wall" parent="." unique_id=1221897070 instance=ExtResource("2_hbghi")]
+position = Vector2(467, 658)
+
+[node name="Wall2" parent="." unique_id=1365024064 instance=ExtResource("2_hbghi")]
+position = Vector2(229, 187.00002)
+rotation = 2.3561945
+
+[node name="Wall3" parent="." unique_id=387430639 instance=ExtResource("2_hbghi")]
+position = Vector2(892, 304)
+rotation = 1.5707964
