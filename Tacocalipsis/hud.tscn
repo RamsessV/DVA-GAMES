@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://r3x1ufrfb6rn"]
+
+[ext_resource type="Script" uid="uid://gmobg8niyh8w" path="res://hud.gd" id="1_37p78"]
+
+[node name="HUD" type="Control" unique_id=246963821]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_37p78")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=889984900]
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=1949270886]
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 10.0
+offset_bottom = 30.0
+
+[node name="CartHealthBar" type="ProgressBar" parent="CanvasLayer" unique_id=1720538665]
+offset_left = 7.0
+offset_top = 35.0
+offset_right = 11.0
+offset_bottom = 62.0
+
+[node name="GameOverLabel" type="Label" parent="CanvasLayer" unique_id=1300645676]
+offset_left = 118.0
+offset_top = 253.0
+offset_right = 1060.0
+offset_bottom = 458.0
+theme_override_font_sizes/font_size = 50
+text = "¡GAME OVER!"
