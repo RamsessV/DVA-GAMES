@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://fij4cy6rsirh"]
+
+[ext_resource type="Script" uid="uid://c0koakk7mqpbp" path="res://cart.gd" id="1_aph70"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aue3q"]
+size = Vector2(50, 50)
+
+[node name="Cart" type="Area2D" unique_id=564698932]
+script = ExtResource("1_aph70")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1807357150]
+shape = SubResource("RectangleShape2D_aue3q")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

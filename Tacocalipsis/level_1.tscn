@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dkinq1vn02cgh" path="res://player.tscn" id="1_3hls8"]
 [ext_resource type="PackedScene" uid="uid://vcobqoqmubq4" path="res://wall.tscn" id="2_hbghi"]
+[ext_resource type="PackedScene" uid="uid://fij4cy6rsirh" path="res://cart.tscn" id="3_hn12h"]
 
 [node name="Level1" type="Node2D" unique_id=1923271350]
 
@@ -17,3 +18,8 @@ rotation = 2.3561945
 [node name="Wall3" parent="." unique_id=387430639 instance=ExtResource("2_hbghi")]
 position = Vector2(892, 304)
 rotation = 1.5707964
+
+[node name="Cart" parent="." unique_id=564698932 instance=ExtResource("3_hn12h")]
+position = Vector2(748, 524)
+
+[connection signal="carring_change" from="Cart" to="Player" method="_on_cart_carring_change"]
