@@ -1,22 +1,34 @@
 extends CharacterBody2D
 
-@onready var screen_size = get_viewport_rect().size
-
-
-const SPEED = 300.0
-var is_carring = false
+signal health_changed(new_health, max_health)
+signal player_died
 
 @export var max_health: int = 100
 var current_health: int
 
-signal health_changed(new_health, max_health)
-signal player_died
+const SPEED = 300.0
+var is_carring: bool = false
+var can_attack: bool = true
+
+@onready var screen_size = get_viewport_rect().size
+@onready var knife_hitbox: Area2D = $KnifeHitbox
+@onready var attack_timer: Timer = $AttackTimer
+@onready var knife_collision: CollisionShape2D = $KnifeHitbox/CollisionShape2D
 
 func _ready() -> void:
 	position = screen_size / 2
 	current_health = max_health
+	health_changed.emit(current_health, max_health)
+	
+	
+	knife_collision.disabled = true
+	
+	
+	attack_timer.timeout.connect(_on_attack_timer_timeout)
+	knife_hitbox.area_entered.connect(_on_knife_hitbox_entered)
+	knife_hitbox.body_entered.connect(_on_knife_hitbox_entered)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector(
 		"move_left",
 		"move_right",
@@ -26,12 +38,30 @@ func _physics_process(delta: float) -> void:
 	velocity = direction * SPEED
 	move_and_slide()
 	position = position.clamp(Vector2.ZERO, screen_size)
-	
-	if not is_carring:
-		print("Puede atacar")
-	else :
-		print("No puede atacar")
 
+func _unhandled_input(event: InputEvent) -> void:
+	
+	if event.is_action_pressed("attack") and can_attack and not is_carring:
+		attack()
+
+func attack() -> void:
+	can_attack = false
+	knife_collision.disabled = false
+	print("¡Ataque de cuchillo!")
+	
+	
+	get_tree().create_timer(0.15).timeout.connect(func(): knife_collision.disabled = true)
+	
+	
+	attack_timer.start()
+
+func _on_attack_timer_timeout() -> void:
+	can_attack = true
+
+func _on_knife_hitbox_entered(body_or_area: Node) -> void:
+	if body_or_area.has_method("take_damage") and body_or_area != self:
+		body_or_area.take_damage(25)
+		print("¡Enemigo golpeado por el cuchillo!")
 
 func _on_cart_carring_change(value: bool) -> void:
 	is_carring = value
@@ -42,17 +72,3 @@ func take_damage(amount: int) -> void:
 	
 	if current_health <= 0:
 		player_died.emit()
-
-#Esto esta provisionalmente para probar lo del daño
-func _unhandled_input(event: InputEvent) -> void:
-
-	if event.is_action_pressed("ui_accept") or event.is_echo() == false and Input.is_key_pressed(KEY_J):
-		take_damage(20)
-		print("Taquero vida actual: ", current_health)
-		
-
-	if Input.is_key_pressed(KEY_K) and event.is_pressed() and not event.is_echo():
-		var cart_node = get_parent().get_node_or_null("Cart")
-		if cart_node and cart_node.has_method("take_damage"):
-			cart_node.take_damage(20)
-			print("Carrito vida actual: ", cart_node.current_health)
