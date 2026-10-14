@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cflrnjroohawc"]
+
+[ext_resource type="Script" uid="uid://dkaajmu38qu7g" path="res://scripts/training_dummy.gd" id="1_v6s2v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4dvm4"]
+size = Vector2(40, 40)
+
+[node name="TrainingDummy" type="StaticBody2D" unique_id=761265610]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_v6s2v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=900283686]
+shape = SubResource("RectangleShape2D_4dvm4")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1441388845]
+color = Color(0.8354049, 0.12344327, 0.1516552, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)

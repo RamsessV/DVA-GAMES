@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://u8xyojujqbdc"]
+
+[ext_resource type="Script" uid="uid://bmofshlj02plr" path="res://scripts/player.gd" id="1_3vyb7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4dvm4"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aue3q"]
+size = Vector2(45, 36)
+
+[node name="Player" type="CharacterBody2D" unique_id=1465701861]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_3vyb7")
+push_speed = 160.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1925895760]
+shape = SubResource("RectangleShape2D_4dvm4")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1147110306]
+color = Color(0.33629715, 0.9999998, 0.87432253, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="MeleeHitbox" type="Area2D" parent="." unique_id=793531997]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=1201541759]
+position = Vector2(30, 0)
+shape = SubResource("RectangleShape2D_aue3q")
+
+[node name="MeleeCooldown" type="Timer" parent="." unique_id=1462773493]
+wait_time = 0.5
+one_shot = true
+
+[node name="ShootCooldown" type="Timer" parent="." unique_id=738512694]
+wait_time = 0.3
+one_shot = true

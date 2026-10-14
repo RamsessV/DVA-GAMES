@@ -1,0 +1,226 @@
+[gd_scene format=3 uid="uid://1jigqvdu2y3h"]
+
+[ext_resource type="PackedScene" uid="uid://dxc2gnljxllod" path="res://scenes/obstacle.tscn" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://byr6fwmoemub2" path="res://scripts/main.gd" id="1_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://u8xyojujqbdc" path="res://scenes/player.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://c2tqnpw12o6ff" path="res://scenes/cart.tscn" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://cn7wop5mac1ia" path="res://scripts/wave_manager.gd" id="5_tbgi4"]
+
+[node name="Main" type="Node2D" unique_id=1460471382]
+script = ExtResource("1_jyhfs")
+
+[node name="World" type="Node2D" parent="." unique_id=1751643000]
+
+[node name="Obstacles" type="Node2D" parent="World" unique_id=1582676788]
+
+[node name="Obstacle2" parent="World/Obstacles" unique_id=1033284047 instance=ExtResource("1_0wfyh")]
+position = Vector2(880, 180)
+
+[node name="Obstacle3" parent="World/Obstacles" unique_id=2129781893 instance=ExtResource("1_0wfyh")]
+position = Vector2(360, 540)
+
+[node name="Obstacle1" parent="World/Obstacles" unique_id=1602331335 instance=ExtResource("1_0wfyh")]
+position = Vector2(300, 180)
+
+[node name="Obstacle4" parent="World/Obstacles" unique_id=1830522811 instance=ExtResource("1_0wfyh")]
+position = Vector2(980, 540)
+
+[node name="Player" parent="World" unique_id=1465701861 instance=ExtResource("1_o5qli")]
+position = Vector2(640, 360)
+
+[node name="Cart" parent="World" unique_id=1141634895 instance=ExtResource("3_sugp2")]
+position = Vector2(720, 360)
+
+[node name="Enemies" type="Node2D" parent="World" unique_id=1525581091]
+
+[node name="Bullets" type="Node2D" parent="World" unique_id=1216363686]
+
+[node name="Drops" type="Node2D" parent="World" unique_id=2939701]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1486177255]
+
+[node name="HUDMargin" type="MarginContainer" parent="HUD" unique_id=1890506989]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 210.0
+
+[node name="HealthBars" type="VBoxContainer" parent="HUD/HUDMargin" unique_id=848035548]
+layout_mode = 2
+
+[node name="PlayerHealthLabel" type="Label" parent="HUD/HUDMargin/HealthBars" unique_id=966527814]
+layout_mode = 2
+text = "Taquero: 100 / 100"
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="HUD/HUDMargin/HealthBars" unique_id=765970901]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="CartHealthLabel" type="Label" parent="HUD/HUDMargin/HealthBars" unique_id=1073869869]
+layout_mode = 2
+text = "Carrito: 150 / 150"
+
+[node name="CartHealthBar" type="ProgressBar" parent="HUD/HUDMargin/HealthBars" unique_id=1426547087]
+layout_mode = 2
+max_value = 150.0
+value = 150.0
+show_percentage = false
+
+[node name="XPSeparator" type="HSeparator" parent="HUD/HUDMargin/HealthBars" unique_id=995869962]
+layout_mode = 2
+
+[node name="XPLabel" type="Label" parent="HUD/HUDMargin/HealthBars" unique_id=1299414156]
+layout_mode = 2
+text = "Nivel 1 — XP: 0 / 50"
+
+[node name="XPBar" type="ProgressBar" parent="HUD/HUDMargin/HealthBars" unique_id=1904351502]
+layout_mode = 2
+max_value = 50.0
+show_percentage = false
+
+[node name="GameOverScreen" type="Control" parent="HUD" unique_id=1032494519]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DarkBackground" type="ColorRect" parent="HUD/GameOverScreen" unique_id=1272805279]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7372549)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/GameOverScreen" unique_id=1704917766]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HUD/GameOverScreen/CenterContainer" unique_id=1307810202]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/GameOverScreen/CenterContainer/PanelContainer" unique_id=161577559]
+layout_mode = 2
+
+[node name="GameOverLabel" type="Label" parent="HUD/GameOverScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=1904401109]
+layout_mode = 2
+text = "GAME OVER
+"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="HUD/GameOverScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=2037612766]
+layout_mode = 2
+text = "REINTENTAR"
+
+[node name="LevelUpScreen" type="Control" parent="HUD" unique_id=1910392790]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DarkBackground" type="ColorRect" parent="HUD/LevelUpScreen" unique_id=1567037707]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8235294)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/LevelUpScreen" unique_id=73057446]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HUD/LevelUpScreen/CenterContainer" unique_id=676836660]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/LevelUpScreen/CenterContainer/PanelContainer" unique_id=1535557714]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="HUD/LevelUpScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=150472564]
+layout_mode = 2
+text = "¡SUBISTE DE NIVEL!"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="HUD/LevelUpScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=484392999]
+layout_mode = 2
+text = "Selecciona una mejora para continuar"
+horizontal_alignment = 1
+
+[node name="HealButton" type="Button" parent="HUD/LevelUpScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=2063024085]
+layout_mode = 2
+text = "CURACIÓN — Recuperar 30% HP"
+
+[node name="SpeedButton" type="Button" parent="HUD/LevelUpScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=511664921]
+layout_mode = 2
+text = "VELOCIDAD — +10%"
+
+[node name="WeaponButton" type="Button" parent="HUD/LevelUpScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=911764648]
+layout_mode = 2
+text = "ARMA — Desbloquear / Mejorar pistola"
+
+[node name="WeaponHUD" type="MarginContainer" parent="HUD" unique_id=1640671626]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -258.0
+offset_top = -108.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 0
+grow_vertical = 0
+metadata/_edit_group_ = true
+
+[node name="WeaponInfo" type="VBoxContainer" parent="HUD/WeaponHUD" unique_id=891888046]
+layout_mode = 2
+
+[node name="GunLabel" type="Label" parent="HUD/WeaponHUD/WeaponInfo" unique_id=1654192479]
+layout_mode = 2
+text = "PISTOLA: BLOQUEADA"
+
+[node name="AmmoLabel" type="Label" parent="HUD/WeaponHUD/WeaponInfo" unique_id=1228477791]
+layout_mode = 2
+text = "MUNICIÓN: 0 / 0"
+
+[node name="KnifeLabel" type="Label" parent="HUD/WeaponHUD/WeaponInfo" unique_id=1179982007]
+layout_mode = 2
+text = "CUCHILLO: INFINITO"
+
+[node name="WaveLabel" type="Label" parent="HUD" unique_id=1269402770]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Text: OLEADA 1"
+horizontal_alignment = 2
+
+[node name="WaveManager" type="Node" parent="." unique_id=1147765855]
+script = ExtResource("5_tbgi4")
+
+[node name="SpawnTimer" type="Timer" parent="WaveManager" unique_id=443211148]
+wait_time = 2.0
+
+[node name="WaveTimer" type="Timer" parent="WaveManager" unique_id=82699615]
+wait_time = 60.0
+one_shot = true
+
+[connection signal="pressed" from="HUD/GameOverScreen/CenterContainer/PanelContainer/VBoxContainer/RetryButton" to="." method="_on_retry_button_pressed"]
