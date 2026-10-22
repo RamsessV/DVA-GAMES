@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c2tqnpw12o6ff"]
+
+[ext_resource type="Script" uid="uid://p6s16bkposnf" path="res://scripts/cart.gd" id="1_0tgi4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4dvm4"]
+size = Vector2(56, 40)
+
+[node name="Cart" type="CharacterBody2D" unique_id=1141634895]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_0tgi4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1587709899]
+shape = SubResource("RectangleShape2D_4dvm4")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=672983654]
+color = Color(0.89614904, 0.49528724, 0.23343661, 1)
+polygon = PackedVector2Array(-28, -20, 28, -20, 28, 20, -28, 20)

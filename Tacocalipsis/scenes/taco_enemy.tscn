@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cqv4u3b8xyxl3"]
+
+[ext_resource type="Script" uid="uid://c76gnqjtny60c" path="res://scripts/taco_enemy.gd" id="1_aycdt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4dvm4"]
+size = Vector2(36, 28)
+
+[node name="TacoEnemy" type="CharacterBody2D" unique_id=1699118993]
+collision_layer = 8
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_aycdt")
+max_health = 50.0
+move_speed = 90.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1747306263]
+shape = SubResource("RectangleShape2D_4dvm4")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1093951389]
+color = Color(0.9359826, 0.16933104, 1.92523e-07, 1)
+polygon = PackedVector2Array(-18, -14, 18, -14, 18, 14, -18, 14)
+
+[node name="AttackCooldown" type="Timer" parent="." unique_id=1742063741]
+one_shot = true
