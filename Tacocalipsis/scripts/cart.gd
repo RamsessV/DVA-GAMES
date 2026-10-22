@@ -66,6 +66,22 @@ func heal(amount: float) -> void:
 	health_changed.emit(current_health, max_health)
 
 
+# Aumentar la vida máxima del carrito y curar esa cantidad.
+# Se reutiliza para la recompensa del jefe.
+func increase_max_health(percentage: float) -> void:
+
+	# Aumentar el máximo según el porcentaje indicado.
+	max_health *= 1.0 + percentage
+
+	# Curar según el nuevo máximo, sin superarlo.
+	current_health = min(
+		current_health + max_health * percentage,
+		max_health
+	)
+
+	health_changed.emit(current_health, max_health)
+
+
 # Esta función será útil al terminar el Sprint 3.
 # Al derrotar al jefe, el carrito recuperará toda su vida.
 func restore_full_health() -> void:

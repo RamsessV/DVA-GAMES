@@ -10,6 +10,10 @@ extends CharacterBody2D
 # Después servirá para generar XP y munición.
 signal enemy_died(death_position: Vector2)
 
+# Avisará cuando cambie la vida del enemigo.
+# Se reutiliza para la barra de vida del jefe.
+signal health_changed(current: float, maximum: float)
+
 
 # ----------------------------------
 # CONFIGURACIÓN DEL ENEMIGO
@@ -209,6 +213,9 @@ func take_damage(amount: float) -> void:
 		"Taco Mutante recibió daño. HP: ",
 		current_health
 	)
+
+	# Comunicar el cambio de vida (lo usa el HUD del jefe).
+	health_changed.emit(current_health, max_health)
 
 	# Comprobar muerte.
 	if current_health <= 0.0:

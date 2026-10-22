@@ -40,6 +40,17 @@ extends Node2D
 
 
 # ----------------------------------
+# POPUP DE RECOMPENSA DEL JEFE
+# ----------------------------------
+
+@onready var boss_reward_screen: Control = $HUD/BossRewardScreen
+
+@onready var health_up_button: Button = $HUD/BossRewardScreen/CenterContainer/PanelContainer/VBoxContainer/HealthUpButton
+
+@onready var cart_up_button: Button = $HUD/BossRewardScreen/CenterContainer/PanelContainer/VBoxContainer/CartUpButton
+
+
+# ----------------------------------
 # HUD DE EXPERIENCIA
 # ----------------------------------
 
@@ -56,6 +67,15 @@ extends Node2D
 
 # Etiqueta que muestra el estado de la oleada.
 @onready var wave_label: Label = $HUD/WaveLabel
+
+
+# ----------------------------------
+# BARRA DE VIDA DEL JEFE
+# ----------------------------------
+
+@onready var boss_health_ui: VBoxContainer = $HUD/BossHealthUI
+@onready var boss_label: Label = $HUD/BossHealthUI/BossLabel
+@onready var boss_health_bar: ProgressBar = $HUD/BossHealthUI/BossHealthBar
 
 
 func _ready() -> void:
@@ -129,6 +149,24 @@ func _ready() -> void:
 
 	# Mostrar el estado inicial de la oleada.
 	wave_label.text = "OLEADA 1"
+
+	# ----------------------------------
+	# CONECTAR POPUP DE RECOMPENSA DEL JEFE
+	# ----------------------------------
+
+	health_up_button.pressed.connect(
+		func(): select_boss_reward("player")
+	)
+
+	cart_up_button.pressed.connect(
+		func(): select_boss_reward("cart")
+	)
+
+	# Mantener oculto el popup al iniciar.
+	boss_reward_screen.hide()
+
+	# Mantener oculta la barra de vida del jefe al iniciar.
+	boss_health_ui.hide()
 
 
 
@@ -374,10 +412,108 @@ func on_wave_started() -> void:
 func on_boss_spawned() -> void:
 	wave_label.text = "¡JEFE: TACO SUPREMO!"
 
+	# Recuperar al jefe que acaba de crear el gestor de oleadas.
+	var boss: TacoEnemy = wave_manager.boss as TacoEnemy
+
+	if boss == null:
+		return
+
+	# Conectar la vida del jefe a la barra del HUD.
+	boss.health_changed.connect(update_boss_health)
+
+	# Inicializar y mostrar la barra con su vida actual.
+	update_boss_health(boss.current_health, boss.max_health)
+
+	boss_health_ui.show()
+
+
+# ----------------------------------
+# BARRA DE VIDA DEL JEFE
+# ----------------------------------
+
+func update_boss_health(current: float, maximum: float) -> void:
+
+	boss_health_bar.max_value = maximum
+	boss_health_bar.value = current
+
+	boss_label.text = "JEFE — %d / %d HP" % [
+		ceili(current),
+		ceili(maximum)
+	]
+
 
 func on_boss_defeated() -> void:
 	wave_label.text = "JEFE DERROTADO..."
 
+	# Ocultar la barra de vida del jefe.
+	boss_health_ui.hide()
+
+	# Regenerar por completo el carrito reutilizando
+	# el método de salud que ya tiene el carrito.
+	cart.restore_full_health()
+
+	# Ofrecer la recompensa de mejora al jugador.
+	show_boss_reward()
+
 
 func on_wave_cleared() -> void:
 	wave_label.text = "¡OLEADA 1 COMPLETADA!"
+
+
+# ----------------------------------
+# RECOMPENSA DEL JEFE
+# ----------------------------------
+
+func show_boss_reward() -> void:
+
+	# No mostrar la recompensa si la partida terminó.
+	if game_over_screen.visible:
+		return
+
+	# Evitar abrir el popup dos veces.
+	if boss_reward_screen.visible:
+		return
+
+	print("¡Recompensa del jefe disponible!")
+
+	# Mostrar el popup.
+	boss_reward_screen.show()
+
+	# Pausar la lógica del juego (igual que el menú de nivel).
+	get_tree().paused = true
+
+	# Dar foco al primer botón.
+	health_up_button.grab_focus()
+
+
+func select_boss_reward(reward_type: String) -> void:
+
+	# Solo aceptar recompensas cuando el popup está abierto.
+	if not boss_reward_screen.visible:
+		return
+
+	# Aplicar la recompensa seleccionada.
+	match reward_type:
+
+		"player":
+			# +20% a la vida máxima del Taquero y cura esa cantidad.
+			player.increase_max_health(0.20)
+			print("Recompensa del jefe: +20% HP Taquero")
+
+		"cart":
+			# +20% a la vida máxima del carrito y cura esa cantidad.
+			cart.increase_max_health(0.20)
+			print("Recompensa del jefe: +20% HP Carrito")
+
+		_:
+			# Ignorar una opción no reconocida.
+			return
+
+	# Ocultar el popup.
+	boss_reward_screen.hide()
+
+	# Reanudar el flujo del juego.
+	get_tree().paused = false
+
+	# Continuar con la siguiente oleada reutilizando el gestor existente.
+	wave_manager.start_wave()

@@ -1,32 +1,27 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cwk3fw7bees8e"]
 
-[ext_resource type="Script" path="res://scripts/boss.gd" id="1_boss"]
+[ext_resource type="Script" uid="uid://joqidqonu3kc" path="res://scripts/boss.gd" id="1_boss"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boss"]
 size = Vector2(40, 32)
 
-[node name="Boss" type="CharacterBody2D"]
+[node name="Boss" type="CharacterBody2D" unique_id=1503847320]
 collision_layer = 8
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_boss")
-max_health = 500.0
+max_health = 250.0
 move_speed = 120.0
 attack_damage = 25.0
 attack_range = 90.0
 stop_distance = 70.0
-boss_scale = 2.5
-charge_cooldown = 2.5
-charge_trigger_distance = 360.0
-contact_damage_distance = 80.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1131721765]
 shape = SubResource("RectangleShape2D_boss")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1608255852]
 color = Color(0.6, 0.05, 0.05, 1)
 polygon = PackedVector2Array(-20, -16, 20, -16, 20, 16, -20, 16)
 
-[node name="AttackCooldown" type="Timer" parent="."]
-wait_time = 1.0
+[node name="AttackCooldown" type="Timer" parent="." unique_id=1605384483]
 one_shot = true
