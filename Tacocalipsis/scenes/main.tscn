@@ -208,10 +208,16 @@ layout_mode = 2
 text = "CUCHILLO: INFINITO"
 
 [node name="WaveLabel" type="Label" parent="HUD" unique_id=1269402770]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Text: OLEADA 1"
-horizontal_alignment = 2
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 16.0
+offset_right = 220.0
+offset_bottom = 46.0
+grow_horizontal = 2
+text = "OLEADA 1"
+horizontal_alignment = 1
 
 [node name="WaveManager" type="Node" parent="." unique_id=1147765855]
 script = ExtResource("5_tbgi4")

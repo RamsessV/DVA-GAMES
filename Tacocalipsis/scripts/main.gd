@@ -8,6 +8,9 @@ extends Node2D
 @onready var player = $World/Player
 @onready var cart = $World/Cart
 
+# Referencia al gestor de oleadas.
+@onready var wave_manager = $WaveManager
+
 # ----------------------------------
 # REFERENCIAS AL HUD
 # ----------------------------------
@@ -50,6 +53,9 @@ extends Node2D
 @onready var gun_label: Label = $HUD/WeaponHUD/WeaponInfo/GunLabel
 @onready var ammo_label: Label = $HUD/WeaponHUD/WeaponInfo/AmmoLabel
 @onready var knife_label: Label = $HUD/WeaponHUD/WeaponInfo/KnifeLabel
+
+# Etiqueta que muestra el estado de la oleada.
+@onready var wave_label: Label = $HUD/WaveLabel
 
 
 func _ready() -> void:
@@ -111,6 +117,18 @@ func _ready() -> void:
 	)
 
 	update_weapon_hud()
+
+	# ----------------------------------
+	# CONECTAR EVENTOS DE LA OLEADA
+	# ----------------------------------
+
+	wave_manager.wave_started.connect(on_wave_started)
+	wave_manager.boss_spawned.connect(on_boss_spawned)
+	wave_manager.boss_defeated.connect(on_boss_defeated)
+	wave_manager.wave_cleared.connect(on_wave_cleared)
+
+	# Mostrar el estado inicial de la oleada.
+	wave_label.text = "OLEADA 1"
 
 
 
@@ -343,3 +361,23 @@ func update_weapon_hud() -> void:
 		player.current_ammo,
 		player.reserve_ammo
 	]
+
+
+# ----------------------------------
+# ESTADO DE LA OLEADA
+# ----------------------------------
+
+func on_wave_started() -> void:
+	wave_label.text = "OLEADA 1"
+
+
+func on_boss_spawned() -> void:
+	wave_label.text = "¡JEFE: TACO SUPREMO!"
+
+
+func on_boss_defeated() -> void:
+	wave_label.text = "JEFE DERROTADO..."
+
+
+func on_wave_cleared() -> void:
+	wave_label.text = "¡OLEADA 1 COMPLETADA!"

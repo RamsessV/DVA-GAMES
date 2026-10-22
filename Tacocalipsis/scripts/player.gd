@@ -22,10 +22,10 @@ signal weapon_changed
 # CONFIGURACIÓN DEL TAQUERO
 # -----------------------------
 
-@export var move_speed: float = 220.0
+@export var move_speed: float = 250.0
 
 # Velocidad cuando transporta el carrito.
-@export var push_speed: float = 140.0
+@export var push_speed: float = 200.0
 
 # Distancia máxima para poder agarrarlo.
 @export var interact_distance: float = 90.0

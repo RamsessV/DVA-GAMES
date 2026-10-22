@@ -1,4 +1,5 @@
 
+class_name TacoEnemy
 extends CharacterBody2D
 
 # ----------------------------------
@@ -18,13 +19,13 @@ signal enemy_died(death_position: Vector2)
 @export var max_health: float = 60.0
 
 # Velocidad de persecución.
-@export var move_speed: float = 100.0
+@export var move_speed: float = 50.0
 
 # Daño de cada ataque.
-@export var attack_damage: float = 10.0
+@export var attack_damage: float = 5.0
 
 # Distancia máxima para poder atacar.
-@export var attack_range: float = 48.0
+@export var attack_range: float = 40.0
 
 # Distancia a la que deja de avanzar.
 @export var stop_distance: float = 38.0

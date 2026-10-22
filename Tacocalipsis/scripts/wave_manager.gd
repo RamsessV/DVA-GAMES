@@ -15,6 +15,12 @@ signal wave_time_finished
 # y podemos activar al jefe.
 signal wave_cleared
 
+# Se emite cuando el Jefe de la Oleada aparece.
+signal boss_spawned
+
+# Se emite cuando el Jefe de la Oleada es derrotado.
+signal boss_defeated
+
 
 # ----------------------------------
 # CONFIGURACIÓN DE OLEADA
@@ -31,14 +37,22 @@ signal wave_cleared
 
 # Escena del Taco Mutante.
 const TACO_SCENE: PackedScene = preload(
-    "res://scenes/taco_enemy.tscn"
+	"res://scenes/taco_enemy.tscn"
 )
 
 
 # Escena reutilizable para XP y munición.
 const DROP_SCENE: PackedScene = preload(
-    "res://scenes/drop.tscn"
+	"res://scenes/drop.tscn"
 )
+
+# Escena del Jefe de la Oleada 1.
+const BOSS_SCENE: PackedScene = preload(
+	"res://scenes/boss.tscn"
+)
+
+# Posición donde aparecerá el jefe al invocarse.
+@export var boss_spawn_position: Vector2 = Vector2(640, 120)
 
 # Cantidad de XP que entrega cada Taco Mutante.
 @export var xp_per_enemy: int = 10
@@ -79,6 +93,10 @@ var wave_ending: bool = false
 var enemies_alive: int = 0
 var enemies_spawned: int = 0
 var enemies_killed: int = 0
+
+# Control del Jefe de la Oleada.
+var boss_active: bool = false
+var boss: Node2D = null
 
 
 # ----------------------------------
@@ -269,8 +287,60 @@ func on_wave_timer_timeout() -> void:
 
 	wave_time_finished.emit()
 
-	# Comprobar si ya no quedan enemigos.
-	check_wave_completion()
+	# En lugar de esperar a limpiar la pantalla,
+	# invocamos al Jefe de la Oleada 1.
+	start_boss_phase()
+
+
+# ----------------------------------
+# INVOCAR AL JEFE DE LA OLEADA
+# ----------------------------------
+
+func start_boss_phase() -> void:
+
+	# Evitar invocar al jefe más de una vez.
+	if boss_active:
+		return
+
+	boss_active = true
+
+	print("¡EL JEFE DE LA OLEADA 1 HA APARECIDO!")
+
+	# Crear al jefe reutilizando su escena.
+	boss = BOSS_SCENE.instantiate()
+
+	enemies_container.add_child(boss)
+
+	boss.global_position = boss_spawn_position
+
+	# Conectar la muerte del jefe para cerrar la oleada.
+	boss.enemy_died.connect(on_boss_died)
+
+	boss_spawned.emit()
+
+
+# ----------------------------------
+# DERROTA DEL JEFE
+# ----------------------------------
+
+func on_boss_died(death_position: Vector2) -> void:
+
+	if not boss_active:
+		return
+
+	boss_active = false
+	boss = null
+
+	print("¡JEFE DERROTADO! Oleada 1 completada.")
+
+	# Recompensas al derrotar al jefe.
+	spawn_drops(death_position)
+
+	boss_defeated.emit()
+
+	# La oleada termina con la muerte del jefe.
+	wave_ending = false
+	wave_cleared.emit()
 
 
 # ----------------------------------
@@ -304,6 +374,11 @@ func on_enemy_died(death_position: Vector2) -> void:
 # ----------------------------------
 
 func check_wave_completion() -> void:
+
+	# Durante la fase del jefe la oleada
+	# no termina hasta derrotarlo.
+	if boss_active:
+		return
 
 	# Esperar a que termine el tiempo.
 	if not wave_ending:
@@ -372,8 +447,11 @@ func create_drop(
 	# Configurar el tipo y cantidad de recompensa.
 	drop.setup(drop_type, amount)
 
-	# Añadir al contenedor.
-	drops_container.add_child(drop)
-
 	# Colocar donde murió el enemigo.
-	drop.global_position = spawn_position
+	# (el contenedor Drops no tiene transform, así que position == global)
+	drop.position = spawn_position
+
+	# Añadir al contenedor de forma diferida: el drop es un
+	# Area2D y su detección no puede activarse mientras la
+	# física está resolviendo consultas (p. ej. al morir un enemigo).
+	drops_container.add_child.call_deferred(drop)
