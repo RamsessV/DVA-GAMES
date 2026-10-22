@@ -1,19 +1,21 @@
+
 extends Area2D
+
 signal hit
-@export var speed = 400;
+
+@export var speed = 400
+
 var screen_size
-var score = 0
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
 	hide()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var velocity = Vector2.ZERO
+
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("move_left"):
@@ -22,7 +24,7 @@ func _process(delta):
 		velocity.y -= 1
 	if Input.is_action_pressed("move_down"):
 		velocity.y += 1
-	
+
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play()
@@ -31,11 +33,10 @@ func _process(delta):
 
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
-	
+
 	if velocity.x != 0:
 		$AnimatedSprite2D.animation = "walk"
 		$AnimatedSprite2D.flip_v = false
-		
 		$AnimatedSprite2D.flip_h = velocity.x < 0
 	elif velocity.y != 0:
 		$AnimatedSprite2D.animation = "up"
@@ -43,25 +44,16 @@ func _process(delta):
 
 
 func _on_body_entered(_body):
-	hide() # Player disappears after being hit.
+	hide()
 	hit.emit()
-	# Must be deferred as we can't change physics properties on a physics callback.
 	$CollisionShape2D.set_deferred("disabled", true)
-	
+
+
 func start(pos):
+	print("Se inició el jugador en: ", pos)
+
 	position = pos
 	show()
-	$CollisionShape2D.disabled = false
-
-
-func _on_hit() -> void:
-	pass # Replace with function body.
-	
-func game_over():
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-
-func new_game():
-	score = 0
-	$Player.start($StartPosition.position)
-	$StartTimer.start()
+	$AnimatedSprite2D.show()
+	$AnimatedSprite2D.play("walk")
+	$CollisionShape2D.set_deferred("disabled", false)
