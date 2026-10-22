@@ -1,0 +1,11 @@
+La interfaz del juego permite alternar entre el escenario de caza y el puesto de tacos mediante un botón. El HUD es minimalista y directo, mostrando la paciencia de cada cliente, la carne disponible y la satisfacción global, así como una barra indicando el tiempo restante. Todo el feedback es inmediato a través de canales visuales y auditivos claros, como humo cuando la carne se quema o alertas rojas cuando un cliente pierde la paciencia.
+
+El loop de interacción sigue un camino directo: en el escenario de caza, al tocar al animal en pantalla, su carne se almacena; en el puesto, se preparan tacos simplemente tocando sus ingredientes y después al cliente; ante un problema, aparece un botón a tocar rápido, o agitar el celular para salvarse. Esto cambia el estado del sistema agregando dinero o carne, y le da feedback visual al instante. Para que el juego fluya sin estancarse.
+
+La UI regula la dinámica de multitarea y presión mediante el ritmo de los indicadores. El parpadeo del stock en cero o la velocidad a la que bajan las barras de los clientes obligan al jugador a decidir rápido entre cazar o cocinar. Uso de alertas y colores claros para guiar la atención del jugador hacia las emergencias sin romper su estado de Flow ni saturarlo de información.
+
+El mayor riesgo del proyecto es la sobrecarga cognitiva: que alternar entre cazar y cocinar al mismo tiempo resulte frustrante o confuso en lugar de divertido. Para validarlo a tiempo, se construirá un prototipo rápido de baja fidelidad (Grey Boxing) usando figuras geométricas básicas para probar si la interacción en pantalla alternada es fluida e intuitiva.
+
+El trade-off del diseño es sacrificar el realismo de la cocina a cambio de una jugabilidad más rápida tipo arcade. Se eliminó el proceso manual de cortar o preparar la carne cruda para evitar dinámicas tediosas, enfocando todo el reto en los reflejos, la velocidad y la resolución de imprevistos locales.
+
+Esta propuesta se justifica porque mantiene un control simple y transparente que compensa la alta velocidad del juego. Al mezclar una premisa cómica con un loop de interacción inmediato y sin fricciones, el juego logra que la multitarea se sienta como un reto justo, ágil y entretenido.
