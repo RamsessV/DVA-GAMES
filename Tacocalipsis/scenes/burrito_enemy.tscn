@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://burritoene0001"]
+
+[ext_resource type="Script" path="res://scripts/taco_enemy.gd" id="1_burrito"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_burrito"]
+size = Vector2(40, 32)
+
+[node name="BurritoEnemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_burrito")
+display_name = "Burrito Diabólico"
+max_health = 120.0
+move_speed = 55.0
+attack_damage = 12.0
+attack_range = 44.0
+stop_distance = 42.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_burrito")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.62, 0.36, 0.12, 1)
+polygon = PackedVector2Array(-20, -16, 20, -16, 20, 16, -20, 16)
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 1.2
+one_shot = true

@@ -12,6 +12,7 @@ motion_mode = 1
 script = ExtResource("1_boss")
 max_health = 250.0
 move_speed = 120.0
+display_name = "Gran Taco de Pastor"
 attack_damage = 25.0
 attack_range = 90.0
 stop_distance = 70.0

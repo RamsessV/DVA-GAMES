@@ -1,68 +1,59 @@
-
 extends Node
+
+# ----------------------------------
+# GESTOR DE OLEADAS
+# ----------------------------------
+# Recorre una lista de recursos WaveData. Cada oleada define
+# su enemigo común, su jefe, su duración y sus recompensas.
+# Al terminar el tiempo de una oleada se invoca a su jefe;
+# al derrotarlo se pasa a la siguiente oleada (o se avisa el
+# fin del juego con all_waves_completed).
+
 
 # ----------------------------------
 # SEÑALES
 # ----------------------------------
 
-# Se emite cuando comienza la oleada.
-signal wave_started
+# Se emite al comenzar una oleada (índice y nombre).
+signal wave_started(wave_index: int, wave_name: String)
 
-# Se emite cuando termina el tiempo.
+# Se emite cuando termina el tiempo de la oleada.
 signal wave_time_finished
 
-# Se emite cuando ya no quedan enemigos
-# y podemos activar al jefe.
+# Se emite cuando ya no quedan enemigos pendientes.
 signal wave_cleared
 
-# Se emite cuando el Jefe de la Oleada aparece.
+# Se emite cuando el Jefe de la oleada aparece.
 signal boss_spawned
 
-# Se emite cuando el Jefe de la Oleada es derrotado.
+# Se emite cuando el Jefe de la oleada es derrotado.
 signal boss_defeated
 
+# Se emite al superar la última oleada.
+signal all_waves_completed
+
 
 # ----------------------------------
-# CONFIGURACIÓN DE OLEADA
+# OLEADAS PREDEFINIDAS
 # ----------------------------------
 
-# Duración de la primera oleada.
-@export var wave_duration: float = 60.0
-
-# Tiempo entre apariciones.
-@export var spawn_interval: float = 2.0
-
-# Máximo de enemigos vivos a la vez.
-@export var max_enemies: int = 8
-
-# Escena del Taco Mutante.
-const TACO_SCENE: PackedScene = preload(
-	"res://scenes/taco_enemy.tscn"
+# Recursos de oleada por defecto (editables en el inspector).
+const WAVE_1_TACOS: WaveData = preload(
+	"res://resources/wave_1_tacos.tres"
 )
+
+const WAVE_2_BURRITOS: WaveData = preload(
+	"res://resources/wave_2_burritos.tres"
+)
+
+# Lista de oleadas que se jugarán en orden.
+@export var waves: Array[WaveData] = []
 
 
 # Escena reutilizable para XP y munición.
 const DROP_SCENE: PackedScene = preload(
 	"res://scenes/drop.tscn"
 )
-
-# Escena del Jefe de la Oleada 1.
-const BOSS_SCENE: PackedScene = preload(
-	"res://scenes/boss.tscn"
-)
-
-# Posición donde aparecerá el jefe al invocarse.
-@export var boss_spawn_position: Vector2 = Vector2(640, 120)
-
-# Cantidad de XP que entrega cada Taco Mutante.
-@export var xp_per_enemy: int = 10
-
-# Probabilidad de soltar munición: 20%.
-@export_range(0.0, 1.0) var ammo_drop_chance: float = 0.20
-
-# Balas que contiene cada paquete.
-@export var ammo_per_drop: int = 6
-
 
 
 # ----------------------------------
@@ -76,8 +67,6 @@ const BOSS_SCENE: PackedScene = preload(
 	get_node("../World/Enemies")
 )
 
-
-# Contenedor donde aparecerán los drops.
 @onready var drops_container: Node2D = (
 	get_node("../World/Drops")
 )
@@ -98,6 +87,10 @@ var enemies_killed: int = 0
 var boss_active: bool = false
 var boss: Node2D = null
 
+# Oleada actual.
+var current_wave_index: int = -1
+var current_wave: WaveData = null
+
 
 # ----------------------------------
 # INICIALIZACIÓN
@@ -108,23 +101,37 @@ func _ready() -> void:
 	# Inicializar sistema aleatorio.
 	randomize()
 
+	# Si no se configuraron oleadas en el inspector,
+	# usar las predefinidas.
+	if waves.is_empty():
+		waves.append(WAVE_1_TACOS)
+		waves.append(WAVE_2_BURRITOS)
+
 	# Conectar las señales de ambos Timer.
 	spawn_timer.timeout.connect(on_spawn_timer_timeout)
 	wave_timer.timeout.connect(on_wave_timer_timeout)
 
-	# Aplicar configuraciones.
-	spawn_timer.wait_time = spawn_interval
-	wave_timer.wait_time = wave_duration
-
 	# Comenzar la primera oleada.
-	start_wave()
+	start_wave(0)
 
 
 # ----------------------------------
 # INICIAR OLEADA
 # ----------------------------------
 
-func start_wave() -> void:
+func start_wave(index: int) -> void:
+
+	# Si el índice no es válido, ya no hay más oleadas.
+	if index < 0 or index >= waves.size():
+		all_waves_completed.emit()
+		return
+
+	current_wave_index = index
+	current_wave = waves[index]
+
+	# No continuar si el recurso no está asignado.
+	if current_wave == null:
+		return
 
 	wave_active = true
 	wave_ending = false
@@ -133,9 +140,19 @@ func start_wave() -> void:
 	enemies_spawned = 0
 	enemies_killed = 0
 
-	print("¡OLEADA 1 INICIADA!")
+	# Aplicar la configuración de esta oleada a los Timer.
+	spawn_timer.wait_time = current_wave.spawn_interval
+	wave_timer.wait_time = current_wave.wave_duration
 
-	wave_started.emit()
+	print(
+		"¡OLEADA ",
+		index + 1,
+		" INICIADA: ",
+		current_wave.wave_name,
+		"!"
+	)
+
+	wave_started.emit(index, current_wave.wave_name)
 
 	# Activar ambos temporizadores.
 	wave_timer.start()
@@ -146,19 +163,37 @@ func start_wave() -> void:
 
 
 # ----------------------------------
-# GENERAR ENEMIGOS
+# AVANZAR A LA SIGUIENTE OLEADA
 # ----------------------------------
 
+func start_next_wave() -> void:
+
+	var next_index: int = current_wave_index + 1
+
+	# Si ya no hay más oleadas, avisar el fin del juego.
+	if next_index >= waves.size():
+		all_waves_completed.emit()
+		return
+
+	start_wave(next_index)
+
+
+# ----------------------------------
+# GENERAR ENEMIGOS
+# ----------------------------------
 
 func spawn_enemy() -> void:
 
 	if not wave_active:
 		return
 
-	if enemies_alive >= max_enemies:
+	if current_wave == null:
 		return
 
-	# Buscar una posición libre antes de crear el taco.
+	if enemies_alive >= current_wave.max_enemies:
+		return
+
+	# Buscar una posición libre antes de crear el enemigo.
 	var spawn_position: Vector2 = Vector2.ZERO
 	var valid_position: bool = false
 
@@ -175,8 +210,8 @@ func spawn_enemy() -> void:
 	if not valid_position:
 		return
 
-	# Crear al enemigo.
-	var enemy = TACO_SCENE.instantiate()
+	# Crear al enemigo de esta oleada.
+	var enemy = current_wave.enemy_scene.instantiate()
 
 	enemies_container.add_child(enemy)
 
@@ -188,7 +223,7 @@ func spawn_enemy() -> void:
 	enemies_spawned += 1
 
 	print(
-		"Taco generado | Vivos: ",
+		"Enemigo generado | Vivos: ",
 		enemies_alive,
 		" | Total: ",
 		enemies_spawned
@@ -214,7 +249,6 @@ func is_spawn_position_safe(position: Vector2) -> bool:
 				return false
 
 	return true
-
 
 
 # ----------------------------------
@@ -287,8 +321,7 @@ func on_wave_timer_timeout() -> void:
 
 	wave_time_finished.emit()
 
-	# En lugar de esperar a limpiar la pantalla,
-	# invocamos al Jefe de la Oleada 1.
+	# Invocar al Jefe de la oleada actual.
 	start_boss_phase()
 
 
@@ -302,16 +335,23 @@ func start_boss_phase() -> void:
 	if boss_active:
 		return
 
+	if current_wave == null:
+		return
+
 	boss_active = true
 
-	print("¡EL JEFE DE LA OLEADA 1 HA APARECIDO!")
+	print(
+		"¡EL JEFE ",
+		current_wave.boss_display_name.to_upper(),
+		" HA APARECIDO!"
+	)
 
 	# Crear al jefe reutilizando su escena.
-	boss = BOSS_SCENE.instantiate()
+	boss = current_wave.boss_scene.instantiate()
 
 	enemies_container.add_child(boss)
 
-	boss.global_position = boss_spawn_position
+	boss.global_position = current_wave.boss_spawn_position
 
 	# Conectar la muerte del jefe para cerrar la oleada.
 	boss.enemy_died.connect(on_boss_died)
@@ -331,7 +371,7 @@ func on_boss_died(death_position: Vector2) -> void:
 	boss_active = false
 	boss = null
 
-	print("¡JEFE DERROTADO! Oleada 1 completada.")
+	print("¡JEFE DERROTADO! Oleada superada.")
 
 	# Recompensas al derrotar al jefe.
 	spawn_drops(death_position)
@@ -346,7 +386,6 @@ func on_boss_died(death_position: Vector2) -> void:
 # ----------------------------------
 # MUERTE DE UN ENEMIGO
 # ----------------------------------
-
 
 func on_enemy_died(death_position: Vector2) -> void:
 
@@ -366,7 +405,6 @@ func on_enemy_died(death_position: Vector2) -> void:
 
 	# Comprobar si la oleada terminó.
 	check_wave_completion()
-
 
 
 # ----------------------------------
@@ -391,7 +429,7 @@ func check_wave_completion() -> void:
 	# Evitar completar dos veces.
 	wave_ending = false
 
-	print("¡OLEADA 1 COMPLETADA!")
+	print("¡OLEADA COMPLETADA!")
 	print("Total eliminados: ", enemies_killed)
 
 	# Avisar que podemos activar al jefe.
@@ -399,14 +437,26 @@ func check_wave_completion() -> void:
 
 
 # ----------------------------------
-# CONSULTAR TIEMPO RESTANTE
+# CONSULTAR INFORMACIÓN DE LA OLEADA
 # ----------------------------------
 
 func get_remaining_time() -> float:
 
 	return wave_timer.time_left
-	
-	
+
+
+func get_current_wave_name() -> String:
+
+	if current_wave == null:
+		return ""
+
+	return current_wave.wave_name
+
+
+func get_current_wave_number() -> int:
+
+	return current_wave_index + 1
+
 
 # ----------------------------------
 # GENERAR RECOMPENSAS
@@ -414,19 +464,22 @@ func get_remaining_time() -> float:
 
 func spawn_drops(death_position: Vector2) -> void:
 
+	if current_wave == null:
+		return
+
 	# XP: siempre aparece.
 	create_drop(
 		0,
-		xp_per_enemy,
+		current_wave.xp_per_enemy,
 		death_position
 	)
 
-	# Munición: probabilidad del 20%.
-	if randf() < ammo_drop_chance:
+	# Munición: probabilidad configurada por oleada.
+	if randf() < current_wave.ammo_drop_chance:
 
 		create_drop(
 			1,
-			ammo_per_drop,
+			current_wave.ammo_per_drop,
 			death_position + Vector2(14, 0)
 		)
 
@@ -448,10 +501,7 @@ func create_drop(
 	drop.setup(drop_type, amount)
 
 	# Colocar donde murió el enemigo.
-	# (el contenedor Drops no tiene transform, así que position == global)
 	drop.position = spawn_position
 
-	# Añadir al contenedor de forma diferida: el drop es un
-	# Area2D y su detección no puede activarse mientras la
-	# física está resolviendo consultas (p. ej. al morir un enemigo).
+	# Añadir al contenedor de forma diferida.
 	drops_container.add_child.call_deferred(drop)

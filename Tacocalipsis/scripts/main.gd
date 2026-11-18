@@ -1,4 +1,3 @@
-
 extends Node2D
 
 # ----------------------------------
@@ -14,7 +13,6 @@ extends Node2D
 # ----------------------------------
 # REFERENCIAS AL HUD
 # ----------------------------------
-
 @onready var player_health_label: Label = $HUD/HUDMargin/HealthBars/PlayerHealthLabel
 @onready var player_health_bar: ProgressBar = $HUD/HUDMargin/HealthBars/PlayerHealthBar
 
@@ -78,6 +76,49 @@ extends Node2D
 @onready var boss_health_bar: ProgressBar = $HUD/BossHealthUI/BossHealthBar
 
 
+# ----------------------------------
+# MENSAJES DE OLEADA / JEFE
+# ----------------------------------
+
+@onready var wave_announcement: Label = $HUD/WaveAnnouncement
+
+
+# ----------------------------------
+# PANTALLA DE VICTORIA
+# ----------------------------------
+
+@onready var victory_screen: Control = $HUD/VictoryScreen
+
+@onready var victory_retry_button: Button = $HUD/VictoryScreen/CenterContainer/PanelContainer/VBoxContainer/RetryButton
+
+@onready var victory_menu_button: Button = $HUD/VictoryScreen/CenterContainer/PanelContainer/VBoxContainer/MenuButton
+
+
+# ----------------------------------
+# MENÚ DE PAUSA
+# ----------------------------------
+
+@onready var pause_menu: Control = $HUD/PauseMenu
+
+@onready var pause_resume_button: Button = $HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer/ResumeButton
+
+@onready var pause_options_button: Button = $HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer/OptionsButton
+
+@onready var pause_menu_button: Button = $HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer/MenuButton
+
+@onready var pause_options_menu: Control = $HUD/PauseMenu/OptionsMenu
+
+
+# Escena del menú principal.
+const MAIN_MENU_SCENE: String = "res://scenes/main_menu.tscn"
+
+# Nombre del jefe actual (para la barra del HUD).
+var boss_display_name: String = "Jefe"
+
+# Tween del mensaje central (evita solapamientos).
+var _announce_tween: Tween = null
+
+
 func _ready() -> void:
 
 	# Conectar los cambios de salud.
@@ -98,8 +139,8 @@ func _ready() -> void:
 		cart.current_health,
 		cart.max_health
 	)
-	
-	
+
+
 	# ----------------------------------
 	# CONECTAR SISTEMA DE NIVEL
 	# ----------------------------------
@@ -123,7 +164,7 @@ func _ready() -> void:
 	# Mantener oculto el menú al iniciar.
 	level_up_screen.hide()
 
-	
+
 	# Escuchar cambios de experiencia.
 	player.xp_changed.connect(update_xp_hud)
 
@@ -146,9 +187,13 @@ func _ready() -> void:
 	wave_manager.boss_spawned.connect(on_boss_spawned)
 	wave_manager.boss_defeated.connect(on_boss_defeated)
 	wave_manager.wave_cleared.connect(on_wave_cleared)
+	wave_manager.all_waves_completed.connect(on_all_waves_completed)
 
 	# Mostrar el estado inicial de la oleada.
-	wave_label.text = "OLEADA 1"
+	# (El WaveManager ya inició la primera oleada en su _ready).
+	refresh_wave_label()
+
+	wave_announcement.hide()
 
 	# ----------------------------------
 	# CONECTAR POPUP DE RECOMPENSA DEL JEFE
@@ -167,6 +212,25 @@ func _ready() -> void:
 
 	# Mantener oculta la barra de vida del jefe al iniciar.
 	boss_health_ui.hide()
+
+	# ----------------------------------
+	# CONECTAR PANTALLA DE VICTORIA
+	# ----------------------------------
+
+	victory_retry_button.pressed.connect(restart_game)
+	victory_menu_button.pressed.connect(go_to_main_menu)
+
+	victory_screen.hide()
+
+	# ----------------------------------
+	# CONECTAR MENÚ DE PAUSA
+	# ----------------------------------
+
+	pause_resume_button.pressed.connect(toggle_pause)
+	pause_options_button.pressed.connect(on_pause_options)
+	pause_menu_button.pressed.connect(go_to_main_menu)
+
+	pause_menu.hide()
 
 
 
@@ -248,6 +312,14 @@ func _on_retry_button_pressed() -> void:
 	restart_game()
 
 
+func go_to_main_menu() -> void:
+
+	# Quitar la pausa y volver al menú principal.
+	get_tree().paused = false
+
+	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
+
+
 
 # ----------------------------------
 # PRUEBAS TEMPORALES DE SALUD
@@ -274,6 +346,49 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		player.heal(20.0)
 		cart.heal(30.0)
 
+
+# ----------------------------------
+# MENÚ DE PAUSA
+# ----------------------------------
+
+func _unhandled_input(event: InputEvent) -> void:
+
+	if not event.is_action_pressed("pause"):
+		return
+
+	# Si las opciones están abiertas, cerrarlas primero.
+	if pause_options_menu.visible:
+		pause_options_menu.on_back()
+		return
+
+	toggle_pause()
+
+
+func toggle_pause() -> void:
+
+	# No permitir pausar sobre pantallas de fin o menús modales.
+	if victory_screen.visible or game_over_screen.visible:
+		return
+
+	if level_up_screen.visible or boss_reward_screen.visible:
+		return
+
+	# Alternar la pausa.
+	if pause_menu.visible:
+
+		pause_menu.hide()
+		get_tree().paused = false
+
+	else:
+
+		pause_menu.show()
+		get_tree().paused = true
+		pause_resume_button.grab_focus()
+
+
+func on_pause_options() -> void:
+
+	pause_options_menu.open()
 
 
 # ----------------------------------
@@ -359,7 +474,7 @@ func select_upgrade(upgrade_type: String) -> void:
 		# No quedan mejoras pendientes.
 		# Reanudar la partida.
 		get_tree().paused = false
-		
+
 
 # ----------------------------------
 # BARRA DE EXPERIENCIA
@@ -405,12 +520,36 @@ func update_weapon_hud() -> void:
 # ESTADO DE LA OLEADA
 # ----------------------------------
 
-func on_wave_started() -> void:
-	wave_label.text = "OLEADA 1"
+func refresh_wave_label() -> void:
+
+	var number: int = wave_manager.get_current_wave_number()
+	var wave_name: String = wave_manager.get_current_wave_name()
+
+	if wave_name == "":
+		wave_label.text = "PREPARANDO..."
+		return
+
+	wave_label.text = "OLEADA %d — %s" % [number, wave_name]
+
+
+func on_wave_started(wave_index: int, wave_name: String) -> void:
+
+	wave_label.text = "OLEADA %d — %s" % [wave_index + 1, wave_name]
+
+	announce(
+		"¡OLEADA %d: %s!" % [wave_index + 1, wave_name.to_upper()]
+	)
 
 
 func on_boss_spawned() -> void:
-	wave_label.text = "¡JEFE: TACO SUPREMO!"
+
+	# Nombre del jefe de esta oleada.
+	if wave_manager.current_wave != null:
+		boss_display_name = wave_manager.current_wave.boss_display_name
+
+	wave_label.text = "¡JEFE: %s!" % boss_display_name
+
+	announce("¡JEFE: %s!" % boss_display_name.to_upper())
 
 	# Recuperar al jefe que acaba de crear el gestor de oleadas.
 	var boss: TacoEnemy = wave_manager.boss as TacoEnemy
@@ -436,20 +575,21 @@ func update_boss_health(current: float, maximum: float) -> void:
 	boss_health_bar.max_value = maximum
 	boss_health_bar.value = current
 
-	boss_label.text = "JEFE — %d / %d HP" % [
+	boss_label.text = "%s — %d / %d HP" % [
+		boss_display_name,
 		ceili(current),
 		ceili(maximum)
 	]
 
 
 func on_boss_defeated() -> void:
+
 	wave_label.text = "JEFE DERROTADO..."
 
 	# Ocultar la barra de vida del jefe.
 	boss_health_ui.hide()
 
-	# Regenerar por completo el carrito reutilizando
-	# el método de salud que ya tiene el carrito.
+	# Regenerar por completo el carrito.
 	cart.restore_full_health()
 
 	# Ofrecer la recompensa de mejora al jugador.
@@ -457,7 +597,55 @@ func on_boss_defeated() -> void:
 
 
 func on_wave_cleared() -> void:
-	wave_label.text = "¡OLEADA 1 COMPLETADA!"
+
+	wave_label.text = "¡OLEADA COMPLETADA!"
+
+
+func on_all_waves_completed() -> void:
+
+	show_victory()
+
+
+# ----------------------------------
+# PANTALLA DE VICTORIA
+# ----------------------------------
+
+func show_victory() -> void:
+
+	# Evitar abrir la victoria varias veces.
+	if victory_screen.visible:
+		return
+
+	print("¡VICTORIA! Todas las oleadas superadas.")
+
+	victory_screen.show()
+
+	get_tree().paused = true
+
+	victory_retry_button.grab_focus()
+
+
+# ----------------------------------
+# MENSAJES CENTRALES
+# ----------------------------------
+
+func announce(message: String) -> void:
+
+	wave_announcement.text = message
+	wave_announcement.modulate.a = 1.0
+	wave_announcement.show()
+
+	# Cancelar el mensaje anterior si aún está animándose.
+	if _announce_tween != null and _announce_tween.is_valid():
+		_announce_tween.kill()
+
+	_announce_tween = create_tween()
+
+	_announce_tween.tween_interval(1.6)
+	_announce_tween.tween_property(
+		wave_announcement, "modulate:a", 0.0, 0.6
+	)
+	_announce_tween.tween_callback(wave_announcement.hide)
 
 
 # ----------------------------------
@@ -515,5 +703,5 @@ func select_boss_reward(reward_type: String) -> void:
 	# Reanudar el flujo del juego.
 	get_tree().paused = false
 
-	# Continuar con la siguiente oleada reutilizando el gestor existente.
-	wave_manager.start_wave()
+	# Avanzar a la siguiente oleada (o terminar la partida).
+	wave_manager.start_next_wave()

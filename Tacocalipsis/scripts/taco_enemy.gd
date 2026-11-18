@@ -25,6 +25,9 @@ signal health_changed(current: float, maximum: float)
 # Velocidad de persecución.
 @export var move_speed: float = 50.0
 
+# Nombre visible para mensajes del HUD.
+@export var display_name: String = "Taco Mutante"
+
 # Daño de cada ataque.
 @export var attack_damage: float = 5.0
 
@@ -186,7 +189,8 @@ func try_attack() -> void:
 		current_target.take_damage(attack_damage)
 
 		print(
-			"Taco Mutante atacó a: ",
+			display_name,
+			" atacó a: ",
 			current_target.name
 		)
 
@@ -210,7 +214,8 @@ func take_damage(amount: float) -> void:
 	)
 
 	print(
-		"Taco Mutante recibió daño. HP: ",
+		display_name,
+		" recibió daño. HP: ",
 		current_health
 	)
 
@@ -233,7 +238,7 @@ func die() -> void:
 
 	is_dead = true
 
-	print("¡Taco Mutante eliminado!")
+	print("¡", display_name, " eliminado!")
 
 	# Avisar su posición de muerte.
 	enemy_died.emit(global_position)

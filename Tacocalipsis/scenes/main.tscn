@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://u8xyojujqbdc" path="res://scenes/player.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://c2tqnpw12o6ff" path="res://scenes/cart.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://cn7wop5mac1ia" path="res://scripts/wave_manager.gd" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bipi3jvfsnjdg" path="res://scenes/options_menu.tscn" id="6_optmenu"]
 
 [node name="Main" type="Node2D" unique_id=1460471382]
 script = ExtResource("1_jyhfs")
@@ -36,6 +37,8 @@ position = Vector2(720, 360)
 [node name="Bullets" type="Node2D" parent="World" unique_id=1216363686]
 
 [node name="Drops" type="Node2D" parent="World" unique_id=2939701]
+
+[node name="EnemyProjectiles" type="Node2D" parent="World" unique_id=2939702]
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1486177255]
 
@@ -293,6 +296,132 @@ layout_mode = 2
 max_value = 500.0
 value = 500.0
 show_percentage = false
+
+[node name="WaveAnnouncement" type="Label" parent="HUD" unique_id=2939710]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -40.0
+offset_right = 400.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "¡OLEADA 1!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VictoryScreen" type="Control" parent="HUD" unique_id=2939720]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DarkBackground" type="ColorRect" parent="HUD/VictoryScreen" unique_id=2939721]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.05, 0, 0.85)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/VictoryScreen" unique_id=2939722]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HUD/VictoryScreen/CenterContainer" unique_id=2939723]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/VictoryScreen/CenterContainer/PanelContainer" unique_id=2939724]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="HUD/VictoryScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939725]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "¡VICTORIA!"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="HUD/VictoryScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939726]
+layout_mode = 2
+text = "Has sobrevivido al TACOCALIPSIS."
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="HUD/VictoryScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939727]
+layout_mode = 2
+text = "VOLVER A JUGAR"
+
+[node name="MenuButton" type="Button" parent="HUD/VictoryScreen/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939728]
+layout_mode = 2
+text = "MENÚ PRINCIPAL"
+
+[node name="PauseMenu" type="Control" parent="HUD" unique_id=2939730]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DarkBackground" type="ColorRect" parent="HUD/PauseMenu" unique_id=2939731]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/PauseMenu" unique_id=2939732]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HUD/PauseMenu/CenterContainer" unique_id=2939733]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PauseMenu/CenterContainer/PanelContainer" unique_id=2939734]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939736]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "PAUSA"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939737]
+layout_mode = 2
+text = "REANUDAR"
+
+[node name="OptionsButton" type="Button" parent="HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939738]
+layout_mode = 2
+text = "OPCIONES"
+
+[node name="MenuButton" type="Button" parent="HUD/PauseMenu/CenterContainer/PanelContainer/VBoxContainer" unique_id=2939739]
+layout_mode = 2
+text = "MENÚ PRINCIPAL"
+
+[node name="OptionsMenu" parent="HUD/PauseMenu" unique_id=2939735 instance=ExtResource("6_optmenu")]
+layout_mode = 1
 
 [node name="WaveManager" type="Node" parent="." unique_id=1147765855]
 script = ExtResource("5_tbgi4")
