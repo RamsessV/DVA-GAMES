@@ -338,10 +338,17 @@ func _face(direction: Vector2) -> void:
 	if direction.length_squared() < 0.001:
 		return
 
-	# Los sprites del Taquero apuntan a la izquierda por defecto,
-	# así que sumamos PI para que la rotación 0 apunte a la derecha.
-	sprite.rotation = direction.angle() + PI
-	sprite.flip_h = false
+	# Las artes son frontales: para mirar a los lados usamos el volteo
+	# horizontal (flip_h) para no tumbar al personaje, y la rotación
+	# cuando la dirección apunta hacia arriba o abajo.
+	if absf(direction.x) > absf(direction.y):
+		sprite.flip_h = direction.x > 0.0
+		sprite.rotation = 0.0
+	else:
+		sprite.flip_h = false
+		# Los sprites del Taquero apuntan a la izquierda por defecto,
+		# así que sumamos PI para que la rotación 0 apunte a la derecha.
+		sprite.rotation = direction.angle() + PI
 
 
 func _start_action(anim_name: String, duration: float) -> void:

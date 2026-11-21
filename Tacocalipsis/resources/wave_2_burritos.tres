@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=4 format=3 uid="uid://wave2burritos0001"]
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://cu1h0cixa44wq"]
 
-[ext_resource type="Script" path="res://scripts/wave_data.gd" id="1_wd"]
-[ext_resource type="PackedScene" path="res://scenes/burrito_enemy.tscn" id="2_enemy"]
-[ext_resource type="PackedScene" path="res://scenes/burrito_boss.tscn" id="3_boss"]
+[ext_resource type="Script" uid="uid://dau61yduqqq3h" path="res://scripts/wave_data.gd" id="1_wd"]
+[ext_resource type="PackedScene" uid="uid://n2ckvi4h6rfc" path="res://scenes/burrito_enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://cg3x4ae5a5r1q" path="res://scenes/burrito_boss.tscn" id="3_boss"]
 
 [resource]
 script = ExtResource("1_wd")
@@ -10,10 +10,9 @@ wave_name = "Burritos"
 enemy_scene = ExtResource("2_enemy")
 boss_scene = ExtResource("3_boss")
 boss_display_name = "Burrito Supremo"
-wave_duration = 60.0
+wave_duration = 45.0
 spawn_interval = 2.2
 max_enemies = 6
-xp_per_enemy = 15
-ammo_drop_chance = 0.25
-ammo_per_drop = 8
-boss_spawn_position = Vector2(640, 120)
+xp_per_enemy = 20
+ammo_drop_chance = 0.4
+ammo_per_drop = 12

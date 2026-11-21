@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqv4u3b8xyxl3"]
+[gd_scene format=3 uid="uid://cqv4u3b8xyxl3"]
 
 [ext_resource type="Script" uid="uid://c76gnqjtny60c" path="res://scripts/taco_enemy.gd" id="1_aycdt"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/normales/taco/quieto.png" id="2_idle"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/normales/taco/atacando.png" id="3_attack"]
+[ext_resource type="Texture2D" uid="uid://bgo8p3rei5kkw" path="res://assets/enemigos/normales/taco/quieto.png" id="2_idle"]
+[ext_resource type="Texture2D" uid="uid://biyeraq2kqbeh" path="res://assets/enemigos/normales/taco/atacando.png" id="3_attack"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4dvm4"]
 size = Vector2(36, 28)
@@ -11,18 +11,18 @@ size = Vector2(36, 28)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_idle")
+"texture": ExtResource("3_attack")
 }],
-"loop": true,
-"name": &"idle",
+"loop": 0,
+"name": &"attack",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_attack")
+"texture": ExtResource("2_idle")
 }],
-"loop": false,
-"name": &"attack",
+"loop": 1,
+"name": &"idle",
 "speed": 5.0
 }]
 
@@ -31,8 +31,10 @@ collision_layer = 8
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_aycdt")
-max_health = 50.0
-move_speed = 90.0
+max_health = 30.0
+move_speed = 40.0
+attack_damage = 10.0
+attack_range = 30.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1747306263]
 shape = SubResource("RectangleShape2D_4dvm4")

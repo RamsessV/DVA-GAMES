@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="WaveData" load_steps=4 format=3 uid="uid://wave1tacos0001"]
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://cxn2ydw2sy3rg"]
 
-[ext_resource type="Script" path="res://scripts/wave_data.gd" id="1_wd"]
-[ext_resource type="PackedScene" path="res://scenes/taco_enemy.tscn" id="2_enemy"]
-[ext_resource type="PackedScene" path="res://scenes/boss.tscn" id="3_boss"]
+[ext_resource type="Script" uid="uid://dau61yduqqq3h" path="res://scripts/wave_data.gd" id="1_wd"]
+[ext_resource type="PackedScene" uid="uid://cqv4u3b8xyxl3" path="res://scenes/taco_enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://cwk3fw7bees8e" path="res://scenes/boss.tscn" id="3_boss"]
 
 [resource]
 script = ExtResource("1_wd")
@@ -10,10 +10,7 @@ wave_name = "Tacos"
 enemy_scene = ExtResource("2_enemy")
 boss_scene = ExtResource("3_boss")
 boss_display_name = "Gran Taco de Pastor"
-wave_duration = 60.0
-spawn_interval = 2.0
-max_enemies = 8
-xp_per_enemy = 10
-ammo_drop_chance = 0.2
-ammo_per_drop = 6
-boss_spawn_position = Vector2(640, 120)
+wave_duration = 45.0
+xp_per_enemy = 15
+ammo_drop_chance = 0.35
+ammo_per_drop = 10

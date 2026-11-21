@@ -315,10 +315,16 @@ func _face(direction: Vector2) -> void:
 	if direction.length_squared() < 0.001:
 		return
 
-	# Los sprites de los enemigos apuntan a la derecha por defecto,
-	# así que la rotación 0 ya apunta hacia la derecha.
-	sprite.rotation = direction.angle()
-	sprite.flip_h = false
+	# Las artes son frontales: para mirar a los lados usamos el volteo
+	# horizontal (flip_h) para no tumbar al personaje, y la rotación
+	# cuando la dirección apunta hacia arriba o abajo.
+	if absf(direction.x) > absf(direction.y):
+		# Los sprites de los enemigos apuntan a la derecha por defecto.
+		sprite.flip_h = direction.x < 0.0
+		sprite.rotation = 0.0
+	else:
+		sprite.flip_h = false
+		sprite.rotation = direction.angle()
 	
 	
 

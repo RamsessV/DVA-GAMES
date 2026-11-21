@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://burritoene0001"]
+[gd_scene format=3 uid="uid://n2ckvi4h6rfc"]
 
 [ext_resource type="Script" uid="uid://c76gnqjtny60c" path="res://scripts/taco_enemy.gd" id="1_burrito"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/normales/burrito/quieto.png" id="2_idle"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/normales/burrito/atacando.png" id="3_attack"]
+[ext_resource type="Texture2D" uid="uid://bhe5w8k8wt762" path="res://assets/enemigos/normales/burrito/quieto.png" id="2_idle"]
+[ext_resource type="Texture2D" uid="uid://c71ap6bp2b7fr" path="res://assets/enemigos/normales/burrito/atacando.png" id="3_attack"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_burrito"]
 size = Vector2(40, 32)
@@ -11,42 +11,41 @@ size = Vector2(40, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_idle")
+"texture": ExtResource("3_attack")
 }],
-"loop": true,
-"name": &"idle",
+"loop": 0,
+"name": &"attack",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_attack")
+"texture": ExtResource("2_idle")
 }],
-"loop": false,
-"name": &"attack",
+"loop": 1,
+"name": &"idle",
 "speed": 5.0
 }]
 
-[node name="BurritoEnemy" type="CharacterBody2D"]
+[node name="BurritoEnemy" type="CharacterBody2D" unique_id=429481672]
 collision_layer = 8
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_burrito")
-display_name = "Burrito Diabólico"
-max_health = 120.0
+max_health = 50.0
 move_speed = 55.0
-attack_damage = 12.0
-attack_range = 44.0
+display_name = "Burrito Diabólico"
+attack_damage = 15.0
 stop_distance = 42.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=982424944]
 shape = SubResource("RectangleShape2D_burrito")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=797014127]
 scale = Vector2(0.06, 0.06)
 sprite_frames = SubResource("SpriteFrames_burrito")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="AttackCooldown" type="Timer" parent="."]
+[node name="AttackCooldown" type="Timer" parent="." unique_id=1322020909]
 wait_time = 1.2
 one_shot = true
