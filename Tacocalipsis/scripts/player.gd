@@ -98,6 +98,12 @@ const BULLET_SCENE: PackedScene = preload(
 # Temporizador de disparos.
 @onready var shoot_cooldown: Timer = $ShootCooldown
 
+# Sprite animado del Taquero.
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+# Tiempo restante de una animación de acción (ataque/disparo/recarga).
+var _action_timer: float = 0.0
+
 
 # -----------------------------
 # REFERENCIA AL CARRITO
@@ -169,6 +175,9 @@ func _physics_process(delta: float) -> void:
 		current_speed = push_speed
 
 	velocity = direction * current_speed
+
+	# Actualizar la animación según el estado actual.
+	_update_animation(direction, mouse_direction, delta)
 
 	# Movimiento normal.
 	if not is_pushing_cart:
@@ -275,6 +284,73 @@ func move_with_cart(delta: float) -> void:
 
 
 # -----------------------------
+# ANIMACIÓN
+# -----------------------------
+
+func _update_animation(
+	direction: Vector2,
+	mouse_direction: Vector2,
+	delta: float
+) -> void:
+
+	if sprite == null:
+		return
+
+	# Si el Taquero murió, mostrar el sprite de muerte.
+	if current_health <= 0.0:
+		_play_anim("dead")
+		return
+
+	# Mantener la animación de acción mientras dure.
+	if _action_timer > 0.0:
+		_action_timer -= delta
+		if _action_timer > 0.0:
+			_face(mouse_direction)
+			return
+
+	# Animación base: caminar o quieto.
+	if direction.length_squared() > 0.01:
+		_play_anim("walk")
+	else:
+		_play_anim("idle")
+
+	_face(mouse_direction)
+
+
+func _play_anim(anim_name: String) -> void:
+
+	if sprite == null or sprite.sprite_frames == null:
+		return
+
+	if not sprite.sprite_frames.has_animation(anim_name):
+		return
+
+	if sprite.animation != anim_name:
+		sprite.play(anim_name)
+
+
+func _face(direction: Vector2) -> void:
+
+	if sprite == null:
+		return
+
+	# Mirar hacia la dirección del cursor.
+	if direction.length_squared() < 0.001:
+		return
+
+	# Los sprites del Taquero apuntan a la izquierda por defecto,
+	# así que sumamos PI para que la rotación 0 apunte a la derecha.
+	sprite.rotation = direction.angle() + PI
+	sprite.flip_h = false
+
+
+func _start_action(anim_name: String, duration: float) -> void:
+
+	_play_anim(anim_name)
+	_action_timer = duration
+
+
+# -----------------------------
 # PERMISO DE ATAQUE
 # -----------------------------
 
@@ -364,6 +440,9 @@ func melee_attack() -> void:
 	# Iniciar tiempo de espera para el siguiente golpe.
 	melee_cooldown.start()
 
+	# Mostrar la animación de ataque.
+	_start_action("melee", 0.35)
+
 	print("¡Ataque con cuchillo!")
 
 	# Buscar todos los cuerpos dentro del área.
@@ -420,6 +499,9 @@ func shoot() -> void:
 	weapon_changed.emit()
 	# Iniciar cooldown.
 	shoot_cooldown.start()
+
+	# Mostrar la animación de disparo.
+	_start_action("shoot", 0.2)
 
 	# Dirección desde el Taquero hacia el mouse.
 	var direction: Vector2 = (
@@ -478,6 +560,9 @@ func reload_gun() -> void:
 
 	current_ammo += ammo_to_load
 	reserve_ammo -= ammo_to_load
+
+	# Mostrar la animación de recarga.
+	_start_action("reload", 0.5)
 
 	print(
 		"Pistola recargada: ",

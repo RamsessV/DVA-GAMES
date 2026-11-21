@@ -109,6 +109,9 @@ func _physics_process(delta: float) -> void:
 	# El jefe solo ataca al Taquero.
 	current_target = player
 
+	# Mirar siempre hacia el Taquero.
+	_face(player.global_position - global_position)
+
 	# Reducir el tiempo de espera entre embestidas.
 	_charge_cooldown_left = max(
 		_charge_cooldown_left - delta,
@@ -174,6 +177,8 @@ func _enter_windup() -> void:
 	# Señal visual de que va a embestir.
 	modulate = Color(1.0, 0.4, 0.4)
 
+	_play_anim("idle")
+
 	print("Jefe: preparando embestida...")
 
 
@@ -208,6 +213,9 @@ func _enter_dash() -> void:
 	_state_timer = dash_max_duration
 
 	modulate = Color(1.0, 1.0, 1.0)
+
+	# Mostrar la animación de embestida.
+	_play_anim("dash")
 
 	charge_started.emit(_dash_direction)
 
@@ -247,6 +255,9 @@ func _enter_recover() -> void:
 	_state = BossState.RECOVER
 	_state_timer = recover_duration
 	velocity = Vector2.ZERO
+
+	# Volver a la animación quieta tras la embestida.
+	_play_anim("idle")
 
 	charge_finished.emit()
 

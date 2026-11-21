@@ -121,6 +121,9 @@ var _announce_tween: Tween = null
 
 func _ready() -> void:
 
+	# Aplicar el cursor personalizado.
+	Settings.apply_cursor()
+
 	# Conectar los cambios de salud.
 	player.health_changed.connect(update_player_health)
 	cart.health_changed.connect(update_cart_health)

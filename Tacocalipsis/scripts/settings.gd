@@ -93,3 +93,34 @@ static func apply_video() -> void:
 		mode = DisplayServer.WINDOW_MODE_FULLSCREEN
 
 	DisplayServer.window_set_mode(mode)
+
+
+# ----------------------------------
+# CURSOR PERSONALIZADO
+# ----------------------------------
+
+const CURSOR_PATH: String = "res://assets/cursor/cursor.png"
+
+static func apply_cursor(size: int = 32) -> void:
+
+	var texture: Texture2D = load(CURSOR_PATH) as Texture2D
+
+	if texture == null:
+		return
+
+	# La imagen original es muy grande: reducirla al tamaño de cursor.
+	var image: Image = texture.get_image()
+
+	if image == null:
+		return
+
+	image.resize(size, size, Image.INTERPOLATE_LANCZOS)
+
+	var cursor_texture: ImageTexture = ImageTexture.create_from_image(image)
+
+	# Punto activo en el centro de la mira.
+	Input.set_custom_mouse_cursor(
+		cursor_texture,
+		Input.CURSOR_ARROW,
+		Vector2(size / 2.0, size / 2.0)
+	)

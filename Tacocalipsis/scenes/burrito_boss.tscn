@@ -1,10 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://burritoboss0001"]
+[gd_scene load_steps=8 format=3 uid="uid://burritoboss0001"]
 
 [ext_resource type="Script" path="res://scripts/burrito_boss.gd" id="1_boss"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_projectile.tscn" id="2_bean"]
+[ext_resource type="Texture2D" path="res://assets/enemigos/jefes/burrito/quieto.png" id="3_idle"]
+[ext_resource type="Texture2D" path="res://assets/enemigos/jefes/burrito/atacando.png" id="4_attack"]
+[ext_resource type="Texture2D" path="res://assets/enemigos/jefes/burrito/muerto.png" id="5_dead"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boss"]
 size = Vector2(44, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_burrito_boss"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_attack")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_dead")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 5.0
+}]
 
 [node name="BurritoBoss" type="CharacterBody2D"]
 collision_layer = 8
@@ -24,9 +54,11 @@ bean_interval = 2.2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_boss")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.45, 0.12, 0.05, 1)
-polygon = PackedVector2Array(-22, -17, 22, -17, 22, 17, -22, 17)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.045, 0.045)
+sprite_frames = SubResource("SpriteFrames_burrito_boss")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 1.0

@@ -53,6 +53,9 @@ var is_dead: bool = false
 # Temporizador de ataque.
 @onready var attack_cooldown: Timer = $AttackCooldown
 
+# Sprite animado del enemigo (si la escena lo incluye).
+@onready var sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D")
+
 
 # ----------------------------------
 # INICIALIZACIÓN
@@ -90,6 +93,10 @@ func _physics_process(_delta: float) -> void:
 
 	# Elegir un objetivo.
 	choose_target()
+
+	# Mirar siempre hacia el objetivo.
+	if is_instance_valid(current_target):
+		_face(current_target.global_position - global_position)
 
 	if current_target == null:
 		velocity = Vector2.ZERO
@@ -197,6 +204,9 @@ func try_attack() -> void:
 		# Esperar antes del siguiente ataque.
 		attack_cooldown.start()
 
+		# Mostrar la animación de ataque.
+		play_attack_animation()
+
 
 # ----------------------------------
 # SISTEMA DE SALUD
@@ -243,8 +253,72 @@ func die() -> void:
 	# Avisar su posición de muerte.
 	enemy_died.emit(global_position)
 
+	# Si hay animación de muerte, mostrarla antes de desaparecer.
+	if (
+		sprite != null
+		and sprite.sprite_frames != null
+		and sprite.sprite_frames.has_animation("dead")
+	):
+
+		_play_anim("dead")
+
+		# Dejar de procesar y quitar la colisión para no estorbar.
+		set_physics_process(false)
+		set_deferred("collision_layer", 0)
+
+		# Esperar brevemente antes de eliminar el nodo.
+		await get_tree().create_timer(0.8).timeout
+
 	# Eliminarlo del escenario.
 	queue_free()
+
+
+# ----------------------------------
+# ANIMACIÓN
+# ----------------------------------
+
+func _play_anim(anim_name: String) -> void:
+
+	if sprite == null or sprite.sprite_frames == null:
+		return
+
+	if not sprite.sprite_frames.has_animation(anim_name):
+		return
+
+	if sprite.animation != anim_name:
+		sprite.play(anim_name)
+
+
+func play_attack_animation() -> void:
+
+	if sprite == null or sprite.sprite_frames == null:
+		return
+
+	if not sprite.sprite_frames.has_animation("attack"):
+		return
+
+	_play_anim("attack")
+
+	# Volver a la animación quieta después de un instante.
+	await get_tree().create_timer(0.3).timeout
+
+	if not is_dead:
+		_play_anim("idle")
+
+
+func _face(direction: Vector2) -> void:
+
+	if sprite == null:
+		return
+
+	# Mirar hacia la dirección indicada.
+	if direction.length_squared() < 0.001:
+		return
+
+	# Los sprites de los enemigos apuntan a la derecha por defecto,
+	# así que la rotación 0 ya apunta hacia la derecha.
+	sprite.rotation = direction.angle()
+	sprite.flip_h = false
 	
 	
 

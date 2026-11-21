@@ -28,6 +28,9 @@ func _ready() -> void:
 	# Cargar y aplicar la configuración guardada.
 	Settings.load_settings()
 
+	# Aplicar el cursor personalizado.
+	Settings.apply_cursor()
+
 	play_button.pressed.connect(on_play)
 	options_button.pressed.connect(on_options)
 	quit_button.pressed.connect(on_quit)

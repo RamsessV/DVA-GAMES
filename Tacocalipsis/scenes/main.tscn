@@ -6,11 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://c2tqnpw12o6ff" path="res://scenes/cart.tscn" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://cn7wop5mac1ia" path="res://scripts/wave_manager.gd" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bipi3jvfsnjdg" path="res://scenes/options_menu.tscn" id="6_optmenu"]
+[ext_resource type="Texture2D" path="res://assets/entorno/escenario.png" id="7_ground"]
 
 [node name="Main" type="Node2D" unique_id=1460471382]
 script = ExtResource("1_jyhfs")
 
 [node name="World" type="Node2D" parent="." unique_id=1751643000]
+
+[node name="Ground" type="Sprite2D" parent="World" unique_id=2939690]
+position = Vector2(640, 360)
+scale = Vector2(0.7655, 0.7655)
+texture = ExtResource("7_ground")
 
 [node name="Obstacles" type="Node2D" parent="World" unique_id=1582676788]
 

@@ -35,8 +35,12 @@ var player: CharacterBody2D = null
 # Evitar recolectarlo más de una vez.
 var collected: bool = false
 
+# Texturas de las recompensas.
+const TEX_XP: Texture2D = preload("res://assets/objetos/drops/xp.png")
+const TEX_AMMO: Texture2D = preload("res://assets/objetos/drops/municion.png")
+
 # Referencia a la apariencia.
-@onready var drop_visual: Polygon2D = $Polygon2D
+@onready var drop_visual: Sprite2D = $Sprite2D
 
 
 # ----------------------------------
@@ -63,11 +67,14 @@ func _ready() -> void:
 
 func update_visual() -> void:
 
+	if drop_visual == null:
+		return
+
 	if drop_type == DropType.XP:
-		drop_visual.color = Color(0.25, 0.8, 1.0)
+		drop_visual.texture = TEX_XP
 
 	elif drop_type == DropType.AMMO:
-		drop_visual.color = Color(1.0, 0.75, 0.2)
+		drop_visual.texture = TEX_AMMO
 
 
 # ----------------------------------

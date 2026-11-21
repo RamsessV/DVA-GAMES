@@ -19,6 +19,15 @@ var current_health: float = 150.0
 var is_attached: bool = false
 
 
+# Texturas del carrito según su estado.
+const TEX_OK: Texture2D = preload("res://assets/carrito/saludable.png")
+const TEX_DAMAGED: Texture2D = preload("res://assets/carrito/dañado.png")
+const TEX_DESTROYED: Texture2D = preload("res://assets/carrito/destruido.png")
+
+# Sprite del carrito.
+@onready var sprite: Sprite2D = $Sprite2D
+
+
 func _ready() -> void:
 	# Inicializar salud.
 	current_health = max_health
@@ -28,6 +37,9 @@ func _ready() -> void:
 
 	# Configurar física de movimiento superior.
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+
+	# Actualizar la apariencia inicial.
+	update_visual()
 
 
 # Esta función se utilizará cuando un enemigo
@@ -48,6 +60,9 @@ func take_damage(amount: float) -> void:
 	# Actualizar la interfaz.
 	health_changed.emit(current_health, max_health)
 
+	# Actualizar la apariencia según el daño.
+	update_visual()
+
 	print("Vida del carrito: ", current_health)
 
 	# Detectar destrucción.
@@ -65,6 +80,8 @@ func heal(amount: float) -> void:
 
 	health_changed.emit(current_health, max_health)
 
+	update_visual()
+
 
 # Aumentar la vida máxima del carrito y curar esa cantidad.
 # Se reutiliza para la recompensa del jefe.
@@ -81,6 +98,8 @@ func increase_max_health(percentage: float) -> void:
 
 	health_changed.emit(current_health, max_health)
 
+	update_visual()
+
 
 # Esta función será útil al terminar el Sprint 3.
 # Al derrotar al jefe, el carrito recuperará toda su vida.
@@ -89,3 +108,24 @@ func restore_full_health() -> void:
 	current_health = max_health
 
 	health_changed.emit(current_health, max_health)
+
+	update_visual()
+
+
+# Actualiza el sprite según la salud del carrito.
+func update_visual() -> void:
+
+	if sprite == null:
+		return
+
+	var ratio: float = 0.0
+
+	if max_health > 0.0:
+		ratio = current_health / max_health
+
+	if current_health <= 0.0:
+		sprite.texture = TEX_DESTROYED
+	elif ratio <= 0.5:
+		sprite.texture = TEX_DAMAGED
+	else:
+		sprite.texture = TEX_OK

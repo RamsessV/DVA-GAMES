@@ -125,6 +125,9 @@ func fire_bean() -> void:
 	# Configurar trayectoria y daño.
 	bean.setup(direction, bean_damage)
 
+	# Mostrar la animación de ataque.
+	play_attack_animation()
+
 	print("Burrito Supremo lanzó un frijol.")
 
 
