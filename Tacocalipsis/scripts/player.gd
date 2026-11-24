@@ -101,6 +101,10 @@ const BULLET_SCENE: PackedScene = preload(
 # Sprite animado del Taquero.
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# Marcador situado en la punta de la pistola.
+# Es hijo del sprite, así que gira junto a él.
+@onready var gun_muzzle: Marker2D = $AnimatedSprite2D/GunMuzzle
+
 # Tiempo restante de una animación de acción (ataque/disparo/recarga).
 var _action_timer: float = 0.0
 
@@ -298,7 +302,7 @@ func _update_animation(
 
 	# Si el Taquero murió, mostrar el sprite de muerte.
 	if current_health <= 0.0:
-		_play_anim("dead")
+		_play_anim("muerto")
 		return
 
 	# Mantener la animación de acción mientras dure.
@@ -334,21 +338,14 @@ func _face(direction: Vector2) -> void:
 	if sprite == null:
 		return
 
-	# Mirar hacia la dirección del cursor.
+	# Mirar hacia la dirección de apuntado.
 	if direction.length_squared() < 0.001:
 		return
 
-	# Las artes son frontales: para mirar a los lados usamos el volteo
-	# horizontal (flip_h) para no tumbar al personaje, y la rotación
-	# cuando la dirección apunta hacia arriba o abajo.
-	if absf(direction.x) > absf(direction.y):
-		sprite.flip_h = direction.x > 0.0
-		sprite.rotation = 0.0
-	else:
-		sprite.flip_h = false
-		# Los sprites del Taquero apuntan a la izquierda por defecto,
-		# así que sumamos PI para que la rotación 0 apunte a la derecha.
-		sprite.rotation = direction.angle() + PI
+	# Los sprites del Taquero están dibujados mirando hacia abajo (+Y),
+	# así que restamos PI/2 para que la rotación 0 corresponda a "abajo"
+	# y el resto de direcciones se obtengan rotando el sprite.
+	sprite.rotation = direction.angle() - PI / 2.0
 
 
 func _start_action(anim_name: String, duration: float) -> void:
@@ -448,7 +445,7 @@ func melee_attack() -> void:
 	melee_cooldown.start()
 
 	# Mostrar la animación de ataque.
-	_start_action("melee", 0.35)
+	_start_action("ataque_cuchillo", 0.35)
 
 	print("¡Ataque con cuchillo!")
 
@@ -508,19 +505,20 @@ func shoot() -> void:
 	shoot_cooldown.start()
 
 	# Mostrar la animación de disparo.
-	_start_action("shoot", 0.2)
+	_start_action("ataque_pistola", 0.2)
 
-	# Dirección desde el Taquero hacia el mouse.
-	var direction: Vector2 = (
-		get_global_mouse_position() - global_position
-	).normalized()
+	# Dirección hacia donde apunta el sprite (hacia el mouse).
+	var aim: Vector2 = get_global_mouse_position() - global_position
 
-	if direction == Vector2.ZERO:
-		return
+	# Si el mouse está justo encima, usar el frente actual del sprite.
+	if aim.length_squared() < 0.0001:
+		aim = Vector2.DOWN.rotated(sprite.rotation)
+
+	var direction: Vector2 = aim.normalized()
 
 	# Obtener el contenedor de proyectiles.
 	var bullets_container: Node2D = get_tree().current_scene.get_node(
-        "World/Bullets"
+		"World/Bullets"
 	)
 
 	# Crear la bala.
@@ -529,8 +527,11 @@ func shoot() -> void:
 	# Añadir al escenario.
 	bullets_container.add_child(bullet)
 
-	# Colocarla delante del Taquero.
-	bullet.global_position = global_position + direction * 26.0
+	# Colocarla en la punta de la pistola, que gira junto al sprite.
+	if gun_muzzle != null:
+		bullet.global_position = gun_muzzle.global_position
+	else:
+		bullet.global_position = global_position + direction * 26.0
 
 	# Configurar trayectoria y daño.
 	bullet.setup(direction, gun_damage)
@@ -569,7 +570,7 @@ func reload_gun() -> void:
 	reserve_ammo -= ammo_to_load
 
 	# Mostrar la animación de recarga.
-	_start_action("reload", 0.5)
+	_start_action("recargar_arma", 0.5)
 
 	print(
 		"Pistola recargada: ",

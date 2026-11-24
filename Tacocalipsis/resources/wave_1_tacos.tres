@@ -12,5 +12,5 @@ boss_scene = ExtResource("3_boss")
 boss_display_name = "Gran Taco de Pastor"
 wave_duration = 45.0
 xp_per_enemy = 15
-ammo_drop_chance = 0.35
+ammo_drop_chance = 0.2
 ammo_per_drop = 10

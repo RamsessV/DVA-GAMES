@@ -14,5 +14,5 @@ wave_duration = 45.0
 spawn_interval = 2.2
 max_enemies = 6
 xp_per_enemy = 20
-ammo_drop_chance = 0.4
+ammo_drop_chance = 0.2
 ammo_per_drop = 12

@@ -45,6 +45,14 @@ offset_top = -100.0
 [node name="CenterContainer" type="CenterContainer" parent="BottomBar"]
 layout_mode = 2
 
-[node name="ContinueButton" type="Button" parent="BottomBar/CenterContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomBar/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="ContinueButton" type="Button" parent="BottomBar/CenterContainer/HBoxContainer"]
 layout_mode = 2
 text = "CONTINUAR"
+
+[node name="SkipButton" type="Button" parent="BottomBar/CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "SALTAR"

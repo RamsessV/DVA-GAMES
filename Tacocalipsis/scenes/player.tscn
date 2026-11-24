@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" path="res://assets/taquero/muerto.png" id="8_dead"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4dvm4"]
-size = Vector2(32, 32)
+size = Vector2(40, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aue3q"]
 size = Vector2(45, 36)
@@ -34,14 +34,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("5_melee")
 }],
 "loop": false,
-"name": &"melee",
+"name": &"ataque_cuchillo",
 "speed": 8.0
 }, {
 "frames": [{
@@ -49,7 +49,7 @@ animations = [{
 "texture": ExtResource("6_shoot")
 }],
 "loop": false,
-"name": &"shoot",
+"name": &"ataque_pistola",
 "speed": 8.0
 }, {
 "frames": [{
@@ -57,7 +57,7 @@ animations = [{
 "texture": ExtResource("7_reload")
 }],
 "loop": false,
-"name": &"reload",
+"name": &"recargar_arma",
 "speed": 8.0
 }, {
 "frames": [{
@@ -65,7 +65,7 @@ animations = [{
 "texture": ExtResource("8_dead")
 }],
 "loop": false,
-"name": &"dead",
+"name": &"muerto",
 "speed": 5.0
 }]
 
@@ -79,10 +79,14 @@ push_speed = 160.0
 shape = SubResource("RectangleShape2D_4dvm4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1147110306]
-scale = Vector2(0.055, 0.055)
+texture_filter = 4
+scale = Vector2(0.0488, 0.0488)
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="GunMuzzle" type="Marker2D" parent="AnimatedSprite2D"]
+position = Vector2(-336, 158)
 
 [node name="MeleeHitbox" type="Area2D" parent="." unique_id=793531997]
 collision_layer = 0
