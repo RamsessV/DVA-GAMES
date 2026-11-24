@@ -43,6 +43,13 @@ extends Node2D
 
 @onready var boss_reward_screen: Control = $HUD/BossRewardScreen
 
+# Historieta del nivel 2 (reutiliza la escena de introducción).
+const INTRO_SCENE: PackedScene = preload("res://scenes/intro.tscn")
+
+const LEVEL_2_COMIC: Texture2D = preload("res://assets/UI/Nivel2Comic.jpg")
+
+var comic_screen: Control = null
+
 @onready var health_up_button: Button = $HUD/BossRewardScreen/CenterContainer/PanelContainer/VBoxContainer/HealthUpButton
 
 @onready var cart_up_button: Button = $HUD/BossRewardScreen/CenterContainer/PanelContainer/VBoxContainer/CartUpButton
@@ -212,6 +219,9 @@ func _ready() -> void:
 
 	# Mantener oculto el popup al iniciar.
 	boss_reward_screen.hide()
+
+	# Preparar la historieta del nivel 2 (oculta al iniciar).
+	_prepare_comic_screen()
 
 	# Mantener oculta la barra de vida del jefe al iniciar.
 	boss_health_ui.hide()
@@ -702,6 +712,56 @@ func select_boss_reward(reward_type: String) -> void:
 
 	# Ocultar el popup.
 	boss_reward_screen.hide()
+
+	# Mostrar la historieta del nivel 2 solo antes de empezar la oleada 2.
+	if wave_manager.current_wave_index == 0:
+		show_comic_2()
+	else:
+		_continue_to_next_wave()
+
+
+# ----------------------------------
+# HISTORIETA DEL NIVEL 2
+# ----------------------------------
+
+func _prepare_comic_screen() -> void:
+
+	# Crear la pantalla reutilizando la escena de introducción.
+	comic_screen = INTRO_SCENE.instantiate() as Control
+
+	# Configurarla para la historieta del nivel 2, como superposición.
+	comic_screen.set("comic_texture", LEVEL_2_COMIC)
+	comic_screen.set("next_scene_path", "")
+	comic_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	comic_screen.visible = false
+
+	comic_screen.connect("finished", on_comic_finished)
+
+	# Añadirla al HUD para que quede por encima del juego.
+	$HUD.add_child(comic_screen)
+
+
+func show_comic_2() -> void:
+
+	# Mantener la partida en pausa mientras se ve la historieta.
+	get_tree().paused = true
+
+	comic_screen.call("open")
+
+
+func on_comic_finished() -> void:
+
+	_continue_to_next_wave()
+
+
+# ----------------------------------
+# CONTINUAR A LA SIGUIENTE OLEADA
+# ----------------------------------
+
+func _continue_to_next_wave() -> void:
+
+	# Ocultar la historieta (si estuviera visible).
+	comic_screen.hide()
 
 	# Reanudar el flujo del juego.
 	get_tree().paused = false

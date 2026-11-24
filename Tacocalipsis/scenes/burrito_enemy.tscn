@@ -36,6 +36,7 @@ move_speed = 55.0
 display_name = "Burrito Diabólico"
 attack_damage = 15.0
 stop_distance = 42.0
+attack_range = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=982424944]
 shape = SubResource("RectangleShape2D_burrito")

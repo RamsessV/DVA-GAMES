@@ -1,7 +1,12 @@
-[gd_scene format=3 uid="uid://mainmenu0001"]
+[gd_scene load_steps=8 format=3 uid="uid://mainmenu0001"]
 
 [ext_resource type="Script" uid="uid://bg3l6piak40tv" path="res://scripts/main_menu.gd" id="1_menu"]
 [ext_resource type="PackedScene" uid="uid://bipi3jvfsnjdg" path="res://scenes/options_menu.tscn" id="2_opt"]
+[ext_resource type="Texture2D" path="res://assets/entorno/escenario.png" id="3_escenario"]
+[ext_resource type="Texture2D" path="res://assets/enemigos/normales/taco/quieto.png" id="4_taco"]
+[ext_resource type="Texture2D" path="res://assets/enemigos/normales/burrito/quieto.png" id="5_burrito"]
+[ext_resource type="Texture2D" path="res://assets/taquero/quieto.png" id="6_taquero"]
+[ext_resource type="Texture2D" path="res://assets/carrito/saludable.png" id="7_carrito"]
 
 [node name="MainMenu" type="Control" unique_id=287106696]
 layout_mode = 3
@@ -21,6 +26,89 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.08, 0.06, 0.05, 1)
 
+[node name="Backdrop" type="Node2D" parent="."]
+
+[node name="Panorama" type="Node2D" parent="Backdrop"]
+position = Vector2(640, 360)
+
+[node name="Escenario" type="Sprite2D" parent="Backdrop/Panorama"]
+texture_filter = 4
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("3_escenario")
+
+[node name="Walkers" type="Node2D" parent="Backdrop/Panorama"]
+
+[node name="TacoA" type="Sprite2D" parent="Backdrop/Panorama/Walkers"]
+texture_filter = 4
+position = Vector2(-740, -150)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("4_taco")
+
+[node name="BurritoA" type="Sprite2D" parent="Backdrop/Panorama/Walkers"]
+texture_filter = 4
+position = Vector2(740, 10)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("5_burrito")
+
+[node name="TacoB" type="Sprite2D" parent="Backdrop/Panorama/Walkers"]
+texture_filter = 4
+position = Vector2(-740, 120)
+scale = Vector2(0.045, 0.045)
+texture = ExtResource("4_taco")
+
+[node name="BurritoB" type="Sprite2D" parent="Backdrop/Panorama/Walkers"]
+texture_filter = 4
+position = Vector2(740, -220)
+scale = Vector2(0.045, 0.045)
+texture = ExtResource("5_burrito")
+
+[node name="Taquero" type="Sprite2D" parent="Backdrop"]
+texture_filter = 4
+position = Vector2(470, 590)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("6_taquero")
+
+[node name="Carrito" type="Sprite2D" parent="Backdrop"]
+texture_filter = 4
+position = Vector2(830, 600)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("7_carrito")
+
+[node name="SlimeA" type="CPUParticles2D" parent="Backdrop"]
+position = Vector2(880, 560)
+amount = 16
+lifetime = 3.0
+direction = Vector2(0, -1)
+spread = 30.0
+gravity = Vector2(0, -26)
+initial_velocity_min = 8.0
+initial_velocity_max = 22.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.45, 0.85, 0.28, 0.85)
+
+[node name="SlimeB" type="CPUParticles2D" parent="Backdrop"]
+position = Vector2(430, 540)
+amount = 12
+lifetime = 3.0
+direction = Vector2(0, -1)
+spread = 35.0
+gravity = Vector2(0, -22)
+initial_velocity_min = 6.0
+initial_velocity_max = 18.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.5, 0.9, 0.32, 0.8)
+
+[node name="Darken" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.45)
+
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1220670727]
 layout_mode = 1
 anchors_preset = 15
@@ -33,11 +121,21 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1671006502]
+[node name="TitleHolder" type="Control" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(600, 64)
 layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer/TitleHolder" unique_id=1671006502]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = "TACOCALIPSIS"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SubtitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1406220750]
 layout_mode = 2
