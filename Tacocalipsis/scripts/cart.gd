@@ -12,6 +12,9 @@ signal cart_destroyed
 # Vida máxima del carrito.
 @export var max_health: float = 150.0
 
+# Referencia al gestor de audio global.
+@onready var audio: AudioManager = get_node("/root/AudioManager")
+
 # Vida actual.
 var current_health: float = 150.0
 
@@ -57,6 +60,9 @@ func take_damage(amount: float) -> void:
 		0.0
 	)
 
+	# Reproducir sonido de daño carrito.
+	audio.play_sfx("carrito_dano")
+
 	# Actualizar la interfaz.
 	health_changed.emit(current_health, max_health)
 
@@ -68,6 +74,9 @@ func take_damage(amount: float) -> void:
 	# Detectar destrucción.
 	if current_health <= 0.0:
 		cart_destroyed.emit()
+
+	# Reproducir sonido de destrucción carrito.
+	audio.play_sfx("carrito_destruido")
 
 
 # Recuperar puntos de vida.

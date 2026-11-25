@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://burritoboss0001"]
+[gd_scene format=3 uid="uid://cg3x4ae5a5r1q"]
 
-[ext_resource type="Script" path="res://scripts/burrito_boss.gd" id="1_boss"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_projectile.tscn" id="2_bean"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/jefes/burrito/quieto.png" id="3_idle"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/jefes/burrito/atacando.png" id="4_attack"]
-[ext_resource type="Texture2D" path="res://assets/enemigos/jefes/burrito/muerto.png" id="5_dead"]
+[ext_resource type="Script" uid="uid://bwft0cuafnass" path="res://scripts/burrito_boss.gd" id="1_boss"]
+[ext_resource type="PackedScene" uid="uid://benemproj0001" path="res://scenes/enemy_projectile.tscn" id="2_bean"]
+[ext_resource type="Texture2D" uid="uid://b6bod7mg8gatk" path="res://assets/enemigos/jefes/burrito/quieto.png" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://d2cy4fwca14e6" path="res://assets/enemigos/jefes/burrito/atacando.png" id="4_attack"]
+[ext_resource type="Texture2D" uid="uid://204800wbqyfc" path="res://assets/enemigos/jefes/burrito/muerto.png" id="5_dead"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boss"]
 size = Vector2(44, 34)
@@ -13,17 +13,9 @@ size = Vector2(44, 34)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_idle")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("4_attack")
 }],
-"loop": false,
+"loop": 0,
 "name": &"attack",
 "speed": 5.0
 }, {
@@ -31,35 +23,40 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_dead")
 }],
-"loop": false,
+"loop": 0,
 "name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_idle")
+}],
+"loop": 1,
+"name": &"idle",
 "speed": 5.0
 }]
 
-[node name="BurritoBoss" type="CharacterBody2D"]
+[node name="BurritoBoss" type="CharacterBody2D" unique_id=1611790926]
 collision_layer = 8
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_boss")
-display_name = "Burrito Supremo"
-max_health = 400.0
+bean_scene = ExtResource("2_bean")
+max_health = 250.0
 move_speed = 70.0
-attack_damage = 18.0
+display_name = "Burrito Supremo"
+attack_damage = 19.0
 attack_range = 90.0
 stop_distance = 70.0
-bean_scene = ExtResource("2_bean")
-bean_damage = 10.0
-bean_interval = 2.2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1970655713]
 shape = SubResource("RectangleShape2D_boss")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=697849638]
 scale = Vector2(0.045, 0.045)
 sprite_frames = SubResource("SpriteFrames_burrito_boss")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="AttackCooldown" type="Timer" parent="."]
-wait_time = 1.0
+[node name="AttackCooldown" type="Timer" parent="." unique_id=385856323]
 one_shot = true

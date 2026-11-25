@@ -128,6 +128,9 @@ var _announce_tween: Tween = null
 
 func _ready() -> void:
 
+	# Música de la oleada.
+	AudioManager.play_musica("musica_oleada")
+
 	# Aplicar el cursor personalizado.
 	Settings.apply_cursor()
 
@@ -307,6 +310,10 @@ func show_game_over() -> void:
 	# Mostrar pantalla de derrota.
 	game_over_screen.show()
 
+	# Sonido de derrota.
+	AudioManager.stop_musica()
+	AudioManager.play_sfx("game_over")
+
 	# Detener el juego.
 	get_tree().paused = true
 
@@ -427,6 +434,9 @@ func show_level_up() -> void:
 	# Mostrar interfaz.
 	level_up_screen.show()
 
+	# Sonido de subida de nivel.
+	AudioManager.play_sfx("subir_nivel")
+
 	# Pausar la acción.
 	get_tree().paused = true
 
@@ -471,6 +481,9 @@ func select_upgrade(upgrade_type: String) -> void:
 
 	# Consumir la XP necesaria y aumentar nivel.
 	player.complete_level_up()
+
+	# Sonido de selección de carta.
+	AudioManager.play_sfx("carta_elegir")
 
 	# Cerrar menú actual.
 	level_up_screen.hide()
@@ -564,6 +577,10 @@ func on_boss_spawned() -> void:
 
 	announce("¡JEFE: %s!" % boss_display_name.to_upper())
 
+	# Sonido y música del jefe.
+	AudioManager.play_sfx("jefe_aparece")
+	AudioManager.play_musica("musica_jefe")
+
 	# Recuperar al jefe que acaba de crear el gestor de oleadas.
 	var boss: TacoEnemy = wave_manager.boss as TacoEnemy
 
@@ -599,6 +616,10 @@ func on_boss_defeated() -> void:
 
 	wave_label.text = "JEFE DERROTADO..."
 
+	# Sonido de jefe derrotado y regreso a la música normal.
+	AudioManager.play_sfx("jefe_muerte")
+	AudioManager.play_musica("musica_oleada")
+
 	# Ocultar la barra de vida del jefe.
 	boss_health_ui.hide()
 
@@ -632,6 +653,10 @@ func show_victory() -> void:
 	print("¡VICTORIA! Todas las oleadas superadas.")
 
 	victory_screen.show()
+
+	# Sonido de victoria.
+	AudioManager.stop_musica()
+	AudioManager.play_sfx("victoria")
 
 	get_tree().paused = true
 
@@ -709,6 +734,9 @@ func select_boss_reward(reward_type: String) -> void:
 		_:
 			# Ignorar una opción no reconocida.
 			return
+
+	# Sonido de selección de carta.
+	AudioManager.play_sfx("carta_elegir")
 
 	# Ocultar el popup.
 	boss_reward_screen.hide()

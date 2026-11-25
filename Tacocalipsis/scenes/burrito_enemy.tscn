@@ -31,12 +31,12 @@ collision_layer = 8
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_burrito")
-max_health = 50.0
+max_health = 30.0
 move_speed = 55.0
 display_name = "Burrito Diabólico"
-attack_damage = 15.0
-stop_distance = 42.0
+attack_damage = 10.0
 attack_range = 50.0
+stop_distance = 42.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=982424944]
 shape = SubResource("RectangleShape2D_burrito")

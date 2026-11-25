@@ -8,7 +8,6 @@ signal health_changed(current: float, maximum: float)
 # Avisar cuando el Taquero se queda sin vida.
 signal player_died
 
-
 # Se emite al obtener experiencia.
 signal xp_changed(current: int, required: int)
 
@@ -17,6 +16,9 @@ signal xp_changed(current: int, required: int)
 signal level_up_ready
 
 signal weapon_changed
+
+# Referencia al gestor de audio global.
+@onready var audio: AudioManager = get_node("/root/AudioManager")
 
 # -----------------------------
 # CONFIGURACIÓN DEL TAQUERO
@@ -229,6 +231,9 @@ func toggle_cart() -> void:
 	is_pushing_cart = true
 	cart.set("is_attached", true)
 
+	# Reproducir sonido de empuje en loop.
+	audio.play_sfx("carrito_empujar", true)
+
 	add_collision_exception_with(cart)
 	cart.add_collision_exception_with(self)
 
@@ -241,6 +246,9 @@ func release_cart() -> void:
 	is_pushing_cart = false
 	cart.set("is_attached", false)
 
+	# Detener sonido de empuje.
+	audio.stop_sfx("carrito_empujar")
+	
 	# Restaurar las colisiones entre ambos.
 	remove_collision_exception_with(cart)
 	cart.remove_collision_exception_with(self)
@@ -381,14 +389,23 @@ func take_damage(amount: float) -> void:
 		0.0
 	)
 
+	# Restar vida sin permitir valores negativos.
+	current_health = max(
+		current_health - amount,
+		0.0
+	)
+
 	# Comunicar el cambio de salud.
 	health_changed.emit(current_health, max_health)
 
 	print("Vida del Taquero: ", current_health)
 
-	# Comprobar si murió.
+	# Sonar daño o muerte, nunca los dos.
 	if current_health <= 0.0:
+		audio.play_sfx("taquero_muerte")
 		player_died.emit()
+	else:
+		audio.play_sfx("taquero_dano")
 
 
 func heal(amount: float) -> void:
@@ -446,6 +463,9 @@ func melee_attack() -> void:
 
 	# Mostrar la animación de ataque.
 	_start_action("ataque_cuchillo", 0.35)
+
+	# Reproducir sonido de cuchillazo.
+	audio.play_sfx("cuchillazo", false, randf_range(-0.1, 0.1))
 
 	print("¡Ataque con cuchillo!")
 
@@ -535,6 +555,9 @@ func shoot() -> void:
 
 	# Configurar trayectoria y daño.
 	bullet.setup(direction, gun_damage)
+	
+	# Reproducir sonido de disparo.
+	audio.play_sfx("disparo_pistola", false, randf_range(-0.1, 0.1))
 
 	print(
 		"Disparo | Munición: ",
@@ -571,6 +594,9 @@ func reload_gun() -> void:
 
 	# Mostrar la animación de recarga.
 	_start_action("recargar_arma", 0.5)
+	
+	# Reproducir sonido de recarga.
+	audio.play_sfx("recarga")
 
 	print(
 		"Pistola recargada: ",

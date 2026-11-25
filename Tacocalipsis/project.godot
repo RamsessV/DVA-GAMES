@@ -15,6 +15,23 @@ run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+audio/bus_name_master="Master"
+audio/bus_name_music="Musica"
+audio/bus_name_sfx="SFX"
+audio/bus_master_gain=1.0
+audio/bus_music_gain=0.5
+audio/bus_sfx_gain=1.0
+
+[autoload]
+
+AudioManager="*uid://dc8xiu7qlur4b"
+
+[autoloads]
+
+"#AudioManager-GestiÃ³nglobaldesonidoymÃºsica.#Estenodopermaneceactivodurantetodalapartiday#proveefuncionesplay_musica(),play_sfx(),set_music_volume_db(),etc.AudioManager"="res://scripts/audio_manager.gd"
+
 [display]
 
 window/size/viewport_width=1280
