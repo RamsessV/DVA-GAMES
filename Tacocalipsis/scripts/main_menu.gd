@@ -43,6 +43,9 @@ func _ready() -> void:
 	# Aplicar el cursor personalizado.
 	Settings.apply_cursor()
 
+	# Música del menú principal.
+	AudioManager.play_musica("musica_menu")
+
 	play_button.pressed.connect(on_play)
 	options_button.pressed.connect(on_options)
 	quit_button.pressed.connect(on_quit)

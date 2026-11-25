@@ -37,6 +37,9 @@ signal health_changed(current: float, maximum: float)
 # Distancia a la que deja de avanzar.
 @export var stop_distance: float = 38.0
 
+# Referencia al gestor de audio global.
+@onready var audio: AudioManager = get_node("/root/AudioManager")
+
 # Vida actual.
 var current_health: float = 60.0
 
@@ -195,6 +198,9 @@ func try_attack() -> void:
 
 		current_target.take_damage(attack_damage)
 
+		# Reproducir sonido de ataque enemigo.
+		audio.play_sfx("enemigo_ataque", false, randf_range(-0.1, 0.1))
+
 		print(
 			display_name,
 			" atacó a: ",
@@ -222,6 +228,9 @@ func take_damage(amount: float) -> void:
 		current_health - amount,
 		0.0
 	)
+
+	# Reproducir sonido de daño enemigo.
+	audio.play_sfx("enemigo_dano")
 
 	print(
 		display_name,
@@ -252,6 +261,9 @@ func die() -> void:
 
 	# Avisar su posición de muerte.
 	enemy_died.emit(global_position)
+
+	# Reproducir sonido de muerte enemigo.
+	audio.play_sfx("enemigo_muerte")
 
 	# Si hay animación de muerte, mostrarla antes de desaparecer.
 	if (

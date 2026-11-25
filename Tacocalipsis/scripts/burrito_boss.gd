@@ -125,6 +125,9 @@ func fire_bean() -> void:
 	# Configurar trayectoria y daño.
 	bean.setup(direction, bean_damage)
 
+	# Reproducir sonido de disparo de frijol.
+	audio.play_sfx("frijol_disparo", false, randf_range(-0.1, 0.1))
+
 	# Mostrar la animación de ataque.
 	play_attack_animation()
 
